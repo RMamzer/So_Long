@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:12:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/18 17:36:00 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:58:28 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-// mandatory functions
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
+// libft_functions
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(char c);
@@ -52,13 +58,6 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-
-// Bonus functions
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
@@ -68,4 +67,21 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
+
+
+
+
+//get_next_line functions
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+char	*get_next_line(int fd);
+char	*update_output(char *buffer, char *output, int	*check);
+void	ft_strcpy_modified(char *dest, char *src, size_t n);
+char	*check_buffer(char *buffer, char *output, int	*check);
+size_t	ft_strlen_modified(char *str);
+
+
 #endif
+
