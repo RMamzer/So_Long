@@ -6,7 +6,7 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/06/25 17:49:07 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/06/25 18:32:12 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,15 +23,15 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-OBJS__DIR = objs/
+OBJS_DIR = objs/
 SRCS_DIR = srcs/
 
 HEADERS = -I ./include -I $(MLX42_DIR)/include -I $(LIBFT_DIR)
-MLX42_LIBS = = $(MLX42) -ldl -lglfw -pthread -lm
+MLX42_LIBS =  $(MLX42) -ldl -lglfw -pthread -lm
 
-SRCS = *.c
+SRCS =  mama.c
 
-OBJS = $(addprefix $(OBJS__DIR), $(SRCS:.c=.o))
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 .SECONDARY: ${OBJS}
 
 all: $(NAME)
@@ -47,7 +47,7 @@ $(MLX42): $(MLX42_DIR)
 	@cmake $(MLX42_DIR) -B $(MLX42_DIR)/build
 	@make -C $(MLX42_DIR)/build -j4
 
-$(OBJS__DIR)%.o: $(SRCS_DIR)%.c
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
 
@@ -57,7 +57,7 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX42)
 	$(CC) $(C_FLAGS) $(OBJS) $(LIBFT) $(MLX42_LIBS) -o $(NAME)
 
 clean:
-	rm -rf $(OBJS__DIR)
+	rm -rf $(OBJS_DIR)
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean

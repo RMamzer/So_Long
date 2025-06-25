@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   mama.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/25 18:21:21 by rmamzer          ###   ########.fr       */
+/*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
+/*   Updated: 2025/06/25 17:52:33 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#include "../include/so_long.h"
 
-#include "libft.h"
-
-
-int main(void);
-
-
-#endif
+int main(void)
+{
+	write (1, "a", 1);
+	return(0);
+}
