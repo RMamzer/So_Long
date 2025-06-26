@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/26 12:33:54 by rmamzer          ###   ########.fr       */
+/*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
+/*   Updated: 2025/06/26 12:33:27 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-
-
-
-
-
-int main(int argc, char **argv)
+bool check_extension(char *file_name)
 {
-	mlx_t	*mlx_ptr;
-	if (argc != 2)
+	int len;
+
+	len = ft_strlen(file_name);
+
+	if (len <=4 || ft_strncmp(file_name + len - 4, ".ber", 4)!= 0)
 	{
-		//exit
+		write (1, "false\n", 6);
+		return (false);
 	}
-	check_extension(argv[1]);
-	//FOR COMPILATION
-
-	// mlx_ptr = mlx_init(256,256,"POPIK", false);
-	// if (!mlx_ptr)
-	// 	return (1);
-
-	// mlx_loop(mlx_ptr);
-
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
-
-	return (0);
+	write (1, "true\n", 5);
+	return (true);
 }
