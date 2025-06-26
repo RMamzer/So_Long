@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/26 12:30:25 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/26 17:50:03 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@
 #include "MLX42/MLX42.h"
 #include <stdbool.h>
 #include "libft.h"
-
+#include <fcntl.h> // open nd close, etc
+//DELETE LATER, FOR PRINTF TESTING;
+#include <stdio.h>
 
 int main(int argc, char **argv);
-bool check_extension(char *file_name);
+void error_exit (char *msg);
 
+void check_extension(char *file_name);
+char	*get_map_str(char *file_name);
+char	*so_strjoin(char *s1, char *s2);
 #endif
