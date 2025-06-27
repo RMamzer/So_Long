@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/26 17:50:03 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:40:11 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 
 int main(int argc, char **argv);
 void error_exit (char *msg);
-
-void check_extension(char *file_name);
+char	*so_strjoin(char *s1, char *s2);
 char	*get_map_str(char *file_name);
 char	*so_strjoin(char *s1, char *s2);
+
+void check_extension(char *file_name);
+void	check_map_objects(char *map_str);
 #endif
