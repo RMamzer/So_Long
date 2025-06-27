@@ -6,12 +6,21 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/27 13:20:15 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:44:26 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
+// CHECK FUNCTION DELE
+void print_args(char **argv)
+{
+	int i = 0;
+	while (argv[i])
+	{
+		printf("argv[%d]: |%s|\n", i, argv[i]);
+		i++;
+	}
+}
 
 void error_exit(char *msg)
 {
@@ -36,11 +45,16 @@ char	*so_strjoin(char *s1, char *s2)
 	str2_l = ft_strlen(s2);
 	joinedstr = malloc(str1_l + str2_l + 1);
 	if (!joinedstr)
+	{
+		free (s1);
+		free (s2);
 		return (NULL);
+	}
 	ft_memcpy(joinedstr, s1, str1_l);
 	ft_memcpy(joinedstr + str1_l, s2, str2_l);
 	joinedstr[str1_l + str2_l] = '\0';
 	free (s1);
+	free (s2);
 	return (joinedstr);
 }
 
@@ -61,34 +75,52 @@ char	*get_map_str(char *file_name)
 			break;
 		map_str = so_strjoin(map_str, next_line);
 		if (!map_str)
-		{
-			free(map_str);
 			error_exit("Malloc function misfunction");
-		}
-		free (next_line);
 	}
+	close(fd);
 	if (map_str == NULL)
 		error_exit("Empty file");
 	return (map_str);
 }
 
 
+void	check_map_shape(char **map)
+{
+	/*
+	- calculate strlen of first (length)
+	- move between str and compare their length with first  line. if not same -> exit
+	- increment width
+	- - width and lengh more that 3 and 5 (one of the  ways )
+	*/
+}
+
 
 int main(int argc, char **argv)
 {
 	// mlx_t	*mlx_ptr;
+	//t_game	*game;
 	char	*map_str;
-
+	char 	**map;
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽");
 	check_extension(argv[1]);
 	map_str = get_map_str(argv[1]);
-	check_map_objects(map_str);
-
-	printf ("%s", map_str);  // DELETE <---------------------------------------------------------------------------------------------
-
-
-
+	printf ("%s\n", map_str);  //DELETE <---------------------------------------------------------------------------------------------
+	if (!check_map_objects(map_str))
+		{
+			free(map_str);
+			error_exit("Invalid map objects");
+		}
+	 map = ft_split(map_str,'\n');
+	 if(!map)
+	 {
+		free (map_str);
+	 	error_exit("Malloc misfunction in ft_split");
+	 }
+	 free (map_str);
+	 check_map_shape(map_str);
+//	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
+	// check_shape_and_walls(map);
 	//FOR COMPILATION
 	//  mlx_ptr = mlx_init(256,256,"POPIK", false);
 	// if (!mlx_ptr)

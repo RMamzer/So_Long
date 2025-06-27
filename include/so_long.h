@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/27 12:40:11 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:51:42 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 //DELETE LATER, FOR PRINTF TESTING;
 #include <stdio.h>
 
+typedef struct s_game
+{
+	char *map_str;
+	char **map;
+} t_game;
+
+
 int main(int argc, char **argv);
 void error_exit (char *msg);
 char	*so_strjoin(char *s1, char *s2);
@@ -28,5 +35,5 @@ char	*get_map_str(char *file_name);
 char	*so_strjoin(char *s1, char *s2);
 
 void check_extension(char *file_name);
-void	check_map_objects(char *map_str);
+bool	check_map_objects(char *map_str);
 #endif

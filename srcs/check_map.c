@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/27 13:15:47 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:48:31 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void check_extension(char *file_name)
 		error_exit("Only .bers ʕ•ᴥ•ʔ can pass");
 
 }
-void	check_map_objects(char *map_str)
+bool	check_map_objects(char *map_str)
 {
 	int	player;
 	int	collect;
@@ -34,7 +34,7 @@ void	check_map_objects(char *map_str)
 	{
 		if (*map_str !='0' && *map_str !='1' && *map_str !='C' &&
 			*map_str !='E' && *map_str !='P' && *map_str !='\n')
-			error_exit("Wrong object detected on the map");
+			return(false);
 		if (*map_str == 'C')
 			collect++;
 		else if (*map_str == 'E')
@@ -43,8 +43,22 @@ void	check_map_objects(char *map_str)
 			player++;
 		map_str++;
 	}
-	if (player != 1 || exit != 1)
-		error_exit("1 start and exit are required");
-	else if (collect < 1)
-		error_exit("No collectibles on the map");
+	if (player != 1 || exit != 1 ||collect < 1)
+		return (false);
+	return (true);
 }
+
+
+// void	check_map_shape(char *map_str)
+// {
+// 	int length;
+// 	int height;
+
+// 	length = ft_strlen_modified(*map_str);
+// 	height = 0;
+// 	while(*map_str)
+// 	{
+// 		if (*map_str == '\n')
+// 	}
+
+// }
