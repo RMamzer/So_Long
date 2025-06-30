@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/30 12:45:04 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:05:21 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,30 @@ void print_args(char **argv)
 	}
 }
 
-void error_exit(char *msg)
+ void	free_map(char **map)
+{
+	size_t	i;
+
+	i = 0;
+	while (map[i])
+		free(map[i++]);
+	free(map);
+}
+void error_exit(char *msg, t_game *game)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putendl_fd(msg, 2);
+
+	if (game != NULL)
+	{
+		if (game->map_str != NULL)
+			free (game->map_str);
+		if (game->map != NULL);
+			free_map (game->map);
+	}
 	exit (1);
 }
 
-
-/*
-exit structure:
-1. 
-
-*/
 
 char	*so_strjoin(char *s1, char *s2)
 {
@@ -74,7 +85,7 @@ char	*get_map_str(char *file_name)
 	map_str = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		error_exit("Cannot open the map 🗺️");
+		error_exit("Cannot open the map 🗺️", NULL);
 	while (1)
 	{
 		next_line = get_next_line(fd);
@@ -82,11 +93,11 @@ char	*get_map_str(char *file_name)
 			break;
 		map_str = so_strjoin(map_str, next_line);
 		if (!map_str)
-			error_exit("Malloc function misfunction");
+			error_exit("Malloc function misfunction", NULL);
 	}
 	close(fd);
 	if (map_str == NULL)
-		error_exit("Empty file");
+		error_exit("Empty file", NULL);
 	return (map_str);
 }
 
@@ -127,23 +138,16 @@ int main(int argc, char **argv)
 	char	*map_str;
 	char 	**map;
 	if (argc != 2)
-		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽");
+		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
 	check_extension(argv[1]);
 	init_game(game);
 	game->map_str = get_map_str(argv[1]);
 	printf ("%s\n", map_str);  //DELETE <---------------------------------------------------------------------------------------------
 	if (!check_map_objects(map_str))
-		{
-			free(map_str);
-			error_exit("Invalid map objects");
-		}
+			error_exit("Invalid map objects", game);
 	 map = ft_split(map_str,'\n');
 	 if(!map)
-	 {
-		free (map_str);
-	 	error_exit("Malloc misfunction in ft_split");
-	 }
-	 free (map_str);
+	 	error_exit("Malloc misfunction in ft_split", game);
 	 check_map_shape(map);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	// check_shape_and_walls(map);
