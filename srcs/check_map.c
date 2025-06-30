@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/30 12:37:03 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:23:32 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void check_extension(char *file_name)
 		error_exit("Only .bers ʕ•ᴥ•ʔ can pass");
 
 }
-bool	check_map_objects(char *map_str)
+bool	check_map_objects(char *map_str, t_game *game)
 {
 	int	player;
 	int	collect;
@@ -34,7 +34,7 @@ bool	check_map_objects(char *map_str)
 	{
 		if (*map_str !='0' && *map_str !='1' && *map_str !='C' &&
 			*map_str !='E' && *map_str !='P' && *map_str !='\n')
-			return(false);
+			error_exit("Incorrect objects detected on the map");
 		if (*map_str == 'C')
 			collect++;
 		else if (*map_str == 'E')

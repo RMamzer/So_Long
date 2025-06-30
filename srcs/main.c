@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/30 13:05:21 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:20:50 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,27 +102,54 @@ char	*get_map_str(char *file_name)
 }
 
 
-bool	check_map_shape(char **map)
+check_map_shape(t_game *game)
 {
-	int length;
-	int height;
+	size_t 	length;
+	size_t 	height;
+	char	**map;
 
+	map = game->map;
 	length = ft_strlen(map[0]);
-	
-	height = 0;
+
 	while(map[height] != NULL)
 	{
 		if (length != ft_strlen(map[height]))
-			return (false);
+			error_exit("Map must be rectangular", game);
 		height ++;
 	}
+	// add dimensions check (3X5 or 5X3 necessary)?  <-----------------------------------------------
+	game->length = length;
+	game->height = height;
 }
-	/*
-	- calculate strlen of first (length)
-	- move between str and compare their length with first  line. if not same -> exit
-	- increment width
-	- --> not necessary, previous checks mitigate it width and lengh more that 3 and 5 (one of the  ways ) 
-	*/
+
+
+void check_walls(t_game	*game)
+{
+	
+	size_t	l;
+	size_t	h;
+
+	h = 0;
+	while (game->map[h] != NULL)
+	{
+		if (h == 0 || h == game->height)
+		{
+			l = 0;
+			while(game->map[h][l])
+			{
+				if (game->map[h][l] != "1")
+					error_exit("Map is not surrounded with walls", game);
+				l++;
+			}
+		}
+		else if (game->map[h][0] != "1" || game->map[h][-1] != "1")
+			error_exit("Map is not surrounded with walls", game);
+		h++;
+	}
+}
+
+
+
 
 void	init_game(t_game *game)
 {
@@ -135,20 +162,18 @@ int main(int argc, char **argv)
 {
 	// mlx_t	*mlx_ptr;
 	t_game	*game;
-	char	*map_str;
-	char 	**map;
+
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
 	check_extension(argv[1]);
 	init_game(game);
 	game->map_str = get_map_str(argv[1]);
-	printf ("%s\n", map_str);  //DELETE <---------------------------------------------------------------------------------------------
-	if (!check_map_objects(map_str))
-			error_exit("Invalid map objects", game);
-	 map = ft_split(map_str,'\n');
-	 if(!map)
+	printf ("%s\n", game->map_str);  //DELETE <---------------------------------------------------------------------------------------------
+	check_map_objects(game);
+	 game->map = ft_split(game->map_str,'\n');
+	 if(!game->map)
 	 	error_exit("Malloc misfunction in ft_split", game);
-	 check_map_shape(map);
+	 check_map_shape(game);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	// check_shape_and_walls(map);
 	//FOR COMPILATION
