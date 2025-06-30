@@ -6,11 +6,12 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/27 18:44:26 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:45:04 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
 // CHECK FUNCTION DELE
 void print_args(char **argv)
 {
@@ -29,6 +30,12 @@ void error_exit(char *msg)
 	exit (1);
 }
 
+
+/*
+exit structure:
+1. 
+
+*/
 
 char	*so_strjoin(char *s1, char *s2)
 {
@@ -84,27 +91,46 @@ char	*get_map_str(char *file_name)
 }
 
 
-void	check_map_shape(char **map)
+bool	check_map_shape(char **map)
 {
+	int length;
+	int height;
+
+	length = ft_strlen(map[0]);
+	
+	height = 0;
+	while(map[height] != NULL)
+	{
+		if (length != ft_strlen(map[height]))
+			return (false);
+		height ++;
+	}
+}
 	/*
 	- calculate strlen of first (length)
 	- move between str and compare their length with first  line. if not same -> exit
 	- increment width
-	- - width and lengh more that 3 and 5 (one of the  ways )
+	- --> not necessary, previous checks mitigate it width and lengh more that 3 and 5 (one of the  ways ) 
 	*/
+
+void	init_game(t_game *game)
+{
+	game->map_str = NULL;
+	game->map = NULL;
 }
 
 
 int main(int argc, char **argv)
 {
 	// mlx_t	*mlx_ptr;
-	//t_game	*game;
+	t_game	*game;
 	char	*map_str;
 	char 	**map;
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽");
 	check_extension(argv[1]);
-	map_str = get_map_str(argv[1]);
+	init_game(game);
+	game->map_str = get_map_str(argv[1]);
 	printf ("%s\n", map_str);  //DELETE <---------------------------------------------------------------------------------------------
 	if (!check_map_objects(map_str))
 		{
@@ -118,7 +144,7 @@ int main(int argc, char **argv)
 	 	error_exit("Malloc misfunction in ft_split");
 	 }
 	 free (map_str);
-	 check_map_shape(map_str);
+	 check_map_shape(map);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	// check_shape_and_walls(map);
 	//FOR COMPILATION
