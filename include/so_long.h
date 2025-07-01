@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 14:12:08 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/01 19:54:08 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ typedef struct s_game
 
 	size_t	length;
 	size_t	height;
+	size_t	collect;
+	size_t	plr_x;
+	size_t	plr_y;
+	size_t	exit_x;
+	size_t	exit_y;
+	bool 	exit_found;
 } t_game;
 
 //main

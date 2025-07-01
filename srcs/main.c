@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:30 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/01 19:59:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ char	*get_map_str(char *file_name, t_game *game)
 			break;
 		map_str = so_strjoin(map_str, next_line);
 		if (!map_str)
+		{
+			close(fd);
 			error_exit("Malloc function misfunction", game);
+		}
 	}
 	close(fd);
 	if (map_str == NULL)
@@ -83,12 +86,70 @@ char	*get_map_str(char *file_name, t_game *game)
 
 
 
-void	init_game(t_game *game)
+
+
+void	init_empty_game(t_game *game)
 {
 	game->map_str = NULL;
 	game->map = NULL;
+	game->collect = 0;
+}
+void	init_game(t_game *game)
+{
+	find_objects (game);
 }
 
+
+void	find_objects(t_game *game)
+{
+	size_t x;
+	size_t y;
+
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while(game->map[y][x])
+		{
+			if (game->map[y][x] == 'P' )
+			{
+				game->plr_x = x;
+				game->plr_y = y;
+			}
+			else if (game->map[y][x] == 'E' )
+			{
+				game->exit_x = x;
+				game->exit_y = y;
+			}
+			else if (game->map[y][x]== "C")
+				game->collect++;
+			x++;
+		}
+		y++;
+	}
+}
+void	flood_fill(t_game *copy, size_t plr_x, size_t plr_y)
+{
+
+}
+
+
+void	check_route(t_game *game)
+{
+	t_game	copy;
+
+	copy.map = ft_split(game->map_str,'\n');
+	if (!copy.map)
+		error_exit("ft_slit malloc broke during map  copying", game);
+	copy.height = game->height;
+	copy.length = game->length;
+	copy.collect= game->collect;
+	copy.plr_x = game->plr_x;
+	copy.plr_y = game->plr_y;
+	copy.exit_found = false;
+
+	flood_fill(&copy, copy.plr_x, copy.plr_y);
+}
 
 int main(int argc, char **argv)
 {
@@ -101,17 +162,17 @@ int main(int argc, char **argv)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		error_exit("Malloc misfunction in game struct",NULL);
-
-	init_game(game);
+	init_empty_game(game);
 	game->map_str = get_map_str(argv[1], game);
 	printf ("%s\n", game->map_str);
 	check_empty_lines(game);  //DELETE <---------------------------------------------------------------------------------------------
 	check_map_objects(game);
-	 game->map = ft_split(game->map_str,'\n');
-	 if(!game->map)
-	 	error_exit("Malloc misfunction in ft_split", game);
-	 check_map_shape(game);
-	 check_walls(game);
+	game->map = ft_split(game->map_str,'\n');
+	if(!game->map)
+		error_exit("Malloc misfunction in ft_split", game);
+	check_map_shape(game);
+	check_walls(game);
+	check_route(game);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	//FOR COMPILATION
 	//  mlx_ptr = mlx_init(256,256,"POPIK", false);

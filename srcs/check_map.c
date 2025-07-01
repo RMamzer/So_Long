@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:20 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/01 19:50:34 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	check_empty_lines(t_game *game)
 
 void	check_map_objects(t_game *game)
 {
-	int	player;
-	int	collect;
-	int	exit;
+	int		player;
+	int		exit;
 	char	*map_str;
+	int		collectible;
 
 	player = 0;
-	collect = 0;
 	exit = 0;
+	collectible = 0;
 	map_str = game->map_str;
 	while (*map_str)
 	{
@@ -57,14 +57,14 @@ void	check_map_objects(t_game *game)
 			*map_str !='E' && *map_str !='P' && *map_str !='\n')
 			error_exit("Incorrect objects detected on the map", game);
 		if (*map_str == 'C')
-			collect++;
+			collectible++;
 		else if (*map_str == 'E')
 			exit++;
 		else if (*map_str == 'P')
 			player++;
 		map_str++;
 	}
-	if (player != 1 || exit != 1 ||collect < 1)
+	if (player != 1 || exit != 1 ||collectible < 1)
 		error_exit("Map requires 1 start, 1 exit and collectibles", game);
 }
 
