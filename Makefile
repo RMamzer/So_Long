@@ -6,7 +6,7 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/06/27 11:59:11 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/07/01 12:54:58 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS_DIR = srcs/
 HEADERS = -I ./include -I $(MLX42_DIR)/include -I $(LIBFT_DIR)
 MLX42_LIBS =  $(MLX42) -ldl -lglfw -pthread -lm
 
-SRCS =  main.c check_map.c
+SRCS =  main.c check_map.c exit_functions.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 .SECONDARY: ${OBJS}

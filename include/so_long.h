@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/27 16:51:42 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:12:08 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,28 @@
 
 typedef struct s_game
 {
-	char *map_str;
-	char **map;
+	char	*map_str;
+	char	**map;
+
+	size_t	length;
+	size_t	height;
 } t_game;
 
-
+//main
 int main(int argc, char **argv);
-void error_exit (char *msg);
 char	*so_strjoin(char *s1, char *s2);
-char	*get_map_str(char *file_name);
-char	*so_strjoin(char *s1, char *s2);
+char	*get_map_str(char *file_name, t_game *game);
+void	init_game(t_game *game);
 
-void check_extension(char *file_name);
-bool	check_map_objects(char *map_str);
+//check_map
+void	check_extension(char *file_name);
+void	check_empty_lines(t_game *game);
+void	check_map_objects(t_game *game);
+void	check_map_shape(t_game *game);
+void	check_walls(t_game	*game);
+
+
+//exit_functions
+void	free_map(char **map);
+void	error_exit(char *msg, t_game *game);
 #endif

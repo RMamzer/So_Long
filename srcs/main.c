@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/06/30 16:20:50 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:00:30 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,6 @@ void print_args(char **argv)
 		printf("argv[%d]: |%s|\n", i, argv[i]);
 		i++;
 	}
-}
-
- void	free_map(char **map)
-{
-	size_t	i;
-
-	i = 0;
-	while (map[i])
-		free(map[i++]);
-	free(map);
-}
-void error_exit(char *msg, t_game *game)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putendl_fd(msg, 2);
-
-	if (game != NULL)
-	{
-		if (game->map_str != NULL)
-			free (game->map_str);
-		if (game->map != NULL);
-			free_map (game->map);
-	}
-	exit (1);
 }
 
 
@@ -76,7 +52,11 @@ char	*so_strjoin(char *s1, char *s2)
 	return (joinedstr);
 }
 
-char	*get_map_str(char *file_name)
+
+
+
+
+char	*get_map_str(char *file_name, t_game *game)
 {
 	int		fd;
 	char	*next_line;
@@ -85,7 +65,7 @@ char	*get_map_str(char *file_name)
 	map_str = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		error_exit("Cannot open the map 🗺️", NULL);
+		error_exit("Cannot open the map 🗺️", game);
 	while (1)
 	{
 		next_line = get_next_line(fd);
@@ -93,61 +73,13 @@ char	*get_map_str(char *file_name)
 			break;
 		map_str = so_strjoin(map_str, next_line);
 		if (!map_str)
-			error_exit("Malloc function misfunction", NULL);
+			error_exit("Malloc function misfunction", game);
 	}
 	close(fd);
 	if (map_str == NULL)
-		error_exit("Empty file", NULL);
+		error_exit("Empty file", game);
 	return (map_str);
 }
-
-
-check_map_shape(t_game *game)
-{
-	size_t 	length;
-	size_t 	height;
-	char	**map;
-
-	map = game->map;
-	length = ft_strlen(map[0]);
-
-	while(map[height] != NULL)
-	{
-		if (length != ft_strlen(map[height]))
-			error_exit("Map must be rectangular", game);
-		height ++;
-	}
-	// add dimensions check (3X5 or 5X3 necessary)?  <-----------------------------------------------
-	game->length = length;
-	game->height = height;
-}
-
-
-void check_walls(t_game	*game)
-{
-	
-	size_t	l;
-	size_t	h;
-
-	h = 0;
-	while (game->map[h] != NULL)
-	{
-		if (h == 0 || h == game->height)
-		{
-			l = 0;
-			while(game->map[h][l])
-			{
-				if (game->map[h][l] != "1")
-					error_exit("Map is not surrounded with walls", game);
-				l++;
-			}
-		}
-		else if (game->map[h][0] != "1" || game->map[h][-1] != "1")
-			error_exit("Map is not surrounded with walls", game);
-		h++;
-	}
-}
-
 
 
 
@@ -166,16 +98,21 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
 	check_extension(argv[1]);
+	game = malloc(sizeof(t_game));
+	if (!game)
+		error_exit("Malloc misfunction in game struct",NULL);
+
 	init_game(game);
-	game->map_str = get_map_str(argv[1]);
-	printf ("%s\n", game->map_str);  //DELETE <---------------------------------------------------------------------------------------------
+	game->map_str = get_map_str(argv[1], game);
+	printf ("%s\n", game->map_str);
+	check_empty_lines(game);  //DELETE <---------------------------------------------------------------------------------------------
 	check_map_objects(game);
 	 game->map = ft_split(game->map_str,'\n');
 	 if(!game->map)
 	 	error_exit("Malloc misfunction in ft_split", game);
 	 check_map_shape(game);
+	 check_walls(game);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
-	// check_shape_and_walls(map);
 	//FOR COMPILATION
 	//  mlx_ptr = mlx_init(256,256,"POPIK", false);
 	// if (!mlx_ptr)
@@ -183,5 +120,6 @@ int main(int argc, char **argv)
 
 	//  mlx_loop(mlx_ptr);
 
+	error_exit("DONE", game);
 	return (0);
 }
