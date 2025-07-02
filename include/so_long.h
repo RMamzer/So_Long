@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 19:54:08 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 13:31:21 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ typedef struct s_game
 	bool 	exit_found;
 } t_game;
 
+// DELETE LATER <-----------------------
+void	print_game_object_data(t_game *game);
+void	print_args(char **argv);
+
 //main
-int main(int argc, char **argv);
+int		main(int argc, char **argv);
 char	*so_strjoin(char *s1, char *s2);
 char	*get_map_str(char *file_name, t_game *game);
-void	init_game(t_game *game);
+void	init_empty_game(t_game *game);
 
 //check_map
 void	check_extension(char *file_name);
@@ -53,4 +57,11 @@ void	check_walls(t_game	*game);
 //exit_functions
 void	free_map(char **map);
 void	error_exit(char *msg, t_game *game);
+
+
+//check_route
+void	init_game(t_game *game);
+void	find_objects(t_game *game);
+void	check_route(t_game *game);
+void	flood_fill(t_game *copy, size_t x, size_t y);
 #endif

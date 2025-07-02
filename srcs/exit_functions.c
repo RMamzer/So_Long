@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 14:36:12 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 12:33:17 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,4 @@ void	error_exit(char *msg, t_game *game)
 	}
 	exit (1);
 }
+

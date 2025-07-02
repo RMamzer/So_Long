@@ -6,13 +6,13 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 19:59:47 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 13:15:39 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-// CHECK FUNCTION DELE
+// CHECK FUNCTION DELETE LATER
 void print_args(char **argv)
 {
 	int i = 0;
@@ -21,6 +21,16 @@ void print_args(char **argv)
 		printf("argv[%d]: |%s|\n", i, argv[i]);
 		i++;
 	}
+	printf("\n\n");
+}
+// CHECK FUNCTION DELETE LATER
+void	print_game_object_data(t_game *game)
+{
+    printf("--- Game Object Data ---\n");
+    printf("Player Position: (x=%zu, y=%zu)\n", game->plr_x, game->plr_y);
+    printf("Exit Position: (x=%zu, y=%zu)\n", game->exit_x, game->exit_y);
+    printf("Total Collectibles: %zu\n", game->collect);
+    printf("------------------------\n");
 }
 
 
@@ -94,62 +104,8 @@ void	init_empty_game(t_game *game)
 	game->map = NULL;
 	game->collect = 0;
 }
-void	init_game(t_game *game)
-{
-	find_objects (game);
-}
 
 
-void	find_objects(t_game *game)
-{
-	size_t x;
-	size_t y;
-
-	y = 0;
-	while (game->map[y])
-	{
-		x = 0;
-		while(game->map[y][x])
-		{
-			if (game->map[y][x] == 'P' )
-			{
-				game->plr_x = x;
-				game->plr_y = y;
-			}
-			else if (game->map[y][x] == 'E' )
-			{
-				game->exit_x = x;
-				game->exit_y = y;
-			}
-			else if (game->map[y][x]== "C")
-				game->collect++;
-			x++;
-		}
-		y++;
-	}
-}
-void	flood_fill(t_game *copy, size_t plr_x, size_t plr_y)
-{
-
-}
-
-
-void	check_route(t_game *game)
-{
-	t_game	copy;
-
-	copy.map = ft_split(game->map_str,'\n');
-	if (!copy.map)
-		error_exit("ft_slit malloc broke during map  copying", game);
-	copy.height = game->height;
-	copy.length = game->length;
-	copy.collect= game->collect;
-	copy.plr_x = game->plr_x;
-	copy.plr_y = game->plr_y;
-	copy.exit_found = false;
-
-	flood_fill(&copy, copy.plr_x, copy.plr_y);
-}
 
 int main(int argc, char **argv)
 {
