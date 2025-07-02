@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/02 13:31:21 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 18:52:55 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 //DELETE LATER, FOR PRINTF TESTING;
 #include <stdio.h>
 
+typedef struct s_img
+{
+
+mlx_image_t	*grass;
+
+} t_img;
+
+
 typedef struct s_game
 {
 	char	*map_str;
@@ -34,7 +42,11 @@ typedef struct s_game
 	size_t	exit_x;
 	size_t	exit_y;
 	bool 	exit_found;
+	mlx_t	*mlx;
+	t_img	*img;
 } t_game;
+
+
 
 // DELETE LATER <-----------------------
 void	print_game_object_data(t_game *game);

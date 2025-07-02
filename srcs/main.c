@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/02 13:15:39 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 19:23:14 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,42 @@ void	init_empty_game(t_game *game)
 	game->map_str = NULL;
 	game->map = NULL;
 	game->collect = 0;
+	game->mlx = NULL;
 }
 
 
 
+void	fill_backgroud(t_game *game)
+{
+	size_t	x;
+	size_t	y;
+
+	y = 0;
+	while (y < 8)
+		{
+			x = 0;
+			while (x < 8)
+			{
+				mlx_image_to_window(game->mlx, game->img->grass, x * 64, y * 64);
+				x++;
+			}
+		y++;
+		}
+
+}
+void	init_images(t_img *img, t_game *game)
+{
+	mlx_texture_t	*grass;
+	grass = mlx_load_png("./imgs/check.png");
+	img->grass = mlx_texture_to_image(game->mlx, grass);
+	mlx_resize_image(img->grass,64,64);
+	mlx_delete_texture(grass);
+}
+
 int main(int argc, char **argv)
 {
-	// mlx_t	*mlx_ptr;
 	t_game	*game;
+	t_img	*img;
 
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
@@ -120,15 +148,34 @@ int main(int argc, char **argv)
 		error_exit("Malloc misfunction in game struct",NULL);
 	init_empty_game(game);
 	game->map_str = get_map_str(argv[1], game);
-	printf ("%s\n", game->map_str);
-	check_empty_lines(game);  //DELETE <---------------------------------------------------------------------------------------------
+	printf ("%s\n", game->map_str);//DELETE <---------------------------------------------------------------------------------------------
 	check_map_objects(game);
+	check_empty_lines(game);
 	game->map = ft_split(game->map_str,'\n');
 	if(!game->map)
 		error_exit("Malloc misfunction in ft_split", game);
 	check_map_shape(game);
 	check_walls(game);
 	check_route(game);
+	game->mlx = mlx_init(1600, 1600, "GAZMIAS", false);
+	if (!(game->mlx))
+		error_exit("MLX initialization broke", game);
+
+
+
+
+
+
+
+	img = malloc(sizeof(t_img));
+	init_images(img, game);
+	game->img = img;
+	fill_backgroud(game);
+
+
+
+
+	mlx_loop(game->mlx);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	//FOR COMPILATION
 	//  mlx_ptr = mlx_init(256,256,"POPIK", false);

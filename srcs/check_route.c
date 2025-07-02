@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:36:59 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/02 13:36:30 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/02 18:43:02 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	flood_fill(t_game *copy, size_t x, size_t y)
 	if(copy->map[y][x] == 'C')
 		copy->collect--;
 	copy->map[y][x] = '~';
-	//print_args(copy->map); <--------------------------------------DELETE LATER
+	//print_args(copy->map);// <--------------------------------------DELETE LATER
 	flood_fill(copy, x + 1, y);
 	flood_fill(copy, x - 1, y);
 	flood_fill(copy, x, y + 1);

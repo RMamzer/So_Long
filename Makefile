@@ -6,13 +6,13 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/07/02 12:41:24 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/07/02 16:10:14 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-CC = cc
+CC = cc -g
 #CHECK FLAGS BEFORE SUBMISSION. ALSO FOR FUTURE: -Ofast
 C_FLAGS = -Wall -Wextra -Werror -Wunreachable-code -g
 
