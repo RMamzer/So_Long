@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/02 19:23:14 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:23:35 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,47 +98,174 @@ char	*get_map_str(char *file_name, t_game *game)
 
 
 
-void	init_empty_game(t_game *game)
+void	init_empty_game_and_img(t_game *game)
 {
+	t_img	*img;
+
 	game->map_str = NULL;
 	game->map = NULL;
 	game->collect = 0;
 	game->mlx = NULL;
+	img = malloc(sizeof(t_img));
+	if (!img)
+		error_exit("Malloc misfunction in game struct",game);
+	game->img = img;
+	img->background = NULL;
+	img->collectible = NULL;
+	img->exit = NULL;
+	img->player = NULL;
+	img->wall = NULL;
+
 }
 
+void	place_object(t_game *game, size_t x, size_t y)
+{
+	int32_t check;
 
+	check = 0;
+	if (game->map[y][x] == 'P')
+		check = mlx_image_to_window(game->mlx, game->img->player, x * SIZE, y * SIZE);
+	else if (game->map[y][x] == 'C')
+		check = mlx_image_to_window(game->mlx, game->img->collectible, x * SIZE + SIZE / 4, y * SIZE + SIZE / 3);
+	else if (game->map[y][x] == '1')
+		check = mlx_image_to_window(game->mlx, game->img->wall, x * SIZE, y * SIZE);
+	else if (game->map[y][x] == 'E')
+		check = mlx_image_to_window(game->mlx, game->img->exit, x * SIZE, y * SIZE);
+	if (check < 0)
+		error_exit("Could not place the object", game);
+}
 
-void	fill_backgroud(t_game *game)
+void	render_map(t_game *game)
 {
 	size_t	x;
 	size_t	y;
+	int32_t	check;
 
 	y = 0;
-	while (y < 8)
+	while (y < game->height)
 		{
 			x = 0;
-			while (x < 8)
+			while (x < game->length)
 			{
-				mlx_image_to_window(game->mlx, game->img->grass, x * 64, y * 64);
+				check  = 0;
+				check = mlx_image_to_window(game->mlx, game->img->background, x * SIZE, y * SIZE);// check return value
+				if (check < 0)
+					error_exit("Could not fill the background", game);
+				place_object(game, x, y);
 				x++;
 			}
 		y++;
 		}
 
 }
+
+// void	fill_coll(t_game *game)
+// {
+// 	size_t	x;
+// 	size_t	y;
+
+// 	y = 0;
+// 	while (y < game->height)
+// 		{
+// 			x = 0;
+// 			while (x < game->length)
+// 			{
+// 				check = mlx_image_to_window(game->mlx, game->img->collectible, x * SIZE + SIZE/4, y * SIZE + SIZE / 4);
+// 				if
+// 				x++;
+// 			}
+// 		y++;
+// 		}
+
+// }
+
+
+
+////////////////////////////////////////////////////////////////////
+
+
+
+
+void	init_background(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+	png = mlx_load_png("./imgs/background.png");
+	if (!png)
+		error_exit("Error during loading background image", game);
+	img->background = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->background)
+		error_exit("Error during converting background image", game);
+	mlx_resize_image(img->background,SIZE,SIZE);
+}
+
+void	init_player(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+	png = mlx_load_png("./imgs/player.png");
+	if (!png)
+		error_exit("Error during loading player image", game);
+	img->player = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->player)
+		error_exit("Error during converting player image", game);
+	mlx_resize_image(img->player,SIZE,SIZE);
+}
+
+
+void	init_collectible(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+	png = mlx_load_png("./imgs/collectible.png");
+	if (!png)
+		error_exit("Error during loading collectible image", game);
+	img->collectible = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->collectible)
+		error_exit("Error during converting collectible image", game);
+	mlx_resize_image(img->collectible,SIZE / 2 ,SIZE / 2 );
+}
+
+
+
+void	init_wall(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+	png = mlx_load_png("./imgs/wall.png");
+	if (!png)
+		error_exit("Error during loading wall image", game);
+	img->wall = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->wall)
+		error_exit("Error during converting wall image", game);
+	mlx_resize_image(img->wall,SIZE, SIZE);
+}
+void	init_exit(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+	png = mlx_load_png("./imgs/exit.png");
+	if (!png)
+		error_exit("Error during loading wall./	 image", game);
+	img->exit = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->wall)
+		error_exit("Error during converting wall image", game);
+	mlx_resize_image(img->exit,SIZE, SIZE);
+}
+
 void	init_images(t_img *img, t_game *game)
 {
-	mlx_texture_t	*grass;
-	grass = mlx_load_png("./imgs/check.png");
-	img->grass = mlx_texture_to_image(game->mlx, grass);
-	mlx_resize_image(img->grass,64,64);
-	mlx_delete_texture(grass);
+	init_background(img, game);
+	init_player(img, game);
+	init_collectible(img,game);
+	init_wall(img, game);
+	init_exit(img,game);
+
 }
 
 int main(int argc, char **argv)
 {
 	t_game	*game;
-	t_img	*img;
 
 	if (argc != 2)
 		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
@@ -146,7 +273,7 @@ int main(int argc, char **argv)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		error_exit("Malloc misfunction in game struct",NULL);
-	init_empty_game(game);
+	init_empty_game_and_img(game);
 	game->map_str = get_map_str(argv[1], game);
 	printf ("%s\n", game->map_str);//DELETE <---------------------------------------------------------------------------------------------
 	check_map_objects(game);
@@ -157,20 +284,15 @@ int main(int argc, char **argv)
 	check_map_shape(game);
 	check_walls(game);
 	check_route(game);
-	game->mlx = mlx_init(1600, 1600, "GAZMIAS", false);
+	game->mlx = mlx_init(SIZE * (game->length), SIZE * (game->height), "GAZMIAS", true);//width-height
 	if (!(game->mlx))
 		error_exit("MLX initialization broke", game);
 
 
 
-
-
-
-
-	img = malloc(sizeof(t_img));
-	init_images(img, game);
-	game->img = img;
-	fill_backgroud(game);
+	init_images(game->img, game);
+	render_map(game);
+	// fill_coll(game);
 
 
 

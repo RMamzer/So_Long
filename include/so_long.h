@@ -6,13 +6,15 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/02 18:52:55 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:21:13 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# define SIZE 64
+# define MOVE SIZE/4
 
 #include "MLX42/MLX42.h"
 #include <stdbool.h>
@@ -24,8 +26,11 @@
 typedef struct s_img
 {
 
-mlx_image_t	*grass;
-
+mlx_image_t	*background;
+mlx_image_t	*player;
+mlx_image_t	*collectible;
+mlx_image_t	*wall;
+mlx_image_t	*exit;
 } t_img;
 
 
