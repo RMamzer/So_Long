@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 15:18:47 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:51:10 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,11 +262,11 @@ void	conduct_move(t_game	*game, char **map, char c)
 /**
  * Key function callback data.
  * Data related to the mlx_key_hook function
- * 
+ *
  * @param key The key that was pressed.
  * @param action The action that was done with the key.
- * @param os_key The os_key is unique for every key, and will have a 
- * different value/keycode depending on the platform. 
+ * @param os_key The os_key is unique for every key, and will have a
+ * different value/keycode depending on the platform.
  * They may be consistent on different platforms.
  * @param modifier The modifier key that was pressed, 0 if none.
  */
@@ -294,10 +294,10 @@ void	conduct_move(t_game	*game, char **map, char c)
 	// 	conduct_move();
 	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
 	// 	conduct_move();
-	
+
  }
 
- 
+
 
 
 
@@ -336,7 +336,7 @@ int main(int argc, char **argv)
 	render_map(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 
-	
+
 	mlx_key_hook(game->mlx, move_hook, game);
 
 	mlx_loop(game->mlx);
