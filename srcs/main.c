@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 15:51:10 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:11:52 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,13 +238,44 @@ void	init_images(t_img *img, t_game *game)
 
 }
 
+void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
+{
+	size_t	x;
+	size_t	y;
+	int		i;
 
+	i = -1;
+	y = 0;
+	while (y < game->height)
+		{
+			x = 0;
+			while (x < game->length)
+			{
+				if(map[y][x] == 'C')
+					i++;
+				if(y == game->plr_y && x == game->plr_x)
+				{
+					coll->instances[i].enabled = false;
+					game->collect--;
+					return ;
+				}
+
+				x++;
+			}
+		y++;
+		}
+}
 void	update_map(t_game *game, char **map)
 {
 	if(map[game->plr_y][game->plr_x] == 'C')
 	{
-		game->img->collectible->instances[1].enabled = false;
+		pickup_collectible(game, map, game->img->collectible);
 		map[game->plr_y][game->plr_x] = '0';
+	}
+	if(map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
+	{
+		mlx_close_window(game->mlx);
+		error_exit("Raketa poshla", game);
 	}
 }
 
@@ -282,10 +313,10 @@ void	conduct_move(t_game	*game, char **map, char c)
  void	move_hook(mlx_key_data_t keydata, void *param)
  {
 	t_game *game;
-
 	game = param;
 	// ADD EXIT
-
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(game->mlx);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && keydata.action == MLX_PRESS)
 		conduct_move(game, game->map, 'w');
 	// else if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
@@ -332,6 +363,7 @@ int main(int argc, char **argv)
 
 
 
+
 	init_images(game->img, game);
 	render_map(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -348,6 +380,6 @@ int main(int argc, char **argv)
 
 	//  mlx_loop(mlx_ptr);
 
-	error_exit("DONE", game);
+	error_exit(NULL, game);
 	return (0);
 }

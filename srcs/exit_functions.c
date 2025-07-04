@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 16:20:31 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:35:10 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ void	free_img(t_game *game, t_img  *img)
 
 void	error_exit(char *msg, t_game *game)
 {
+	if (msg != NULL)
+	{
 	ft_putstr_fd("Error\n", 2);
 	ft_putendl_fd(msg, 2);
-
+	}
 	if (game != NULL)
 	{
 		if (game->map_str != NULL)
