@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: rmamzer <rmamzer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/03 20:23:35 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 13:36:48 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+
+	//mlx_put_string(game->mlx, "HELLO WORLD",16,game->height* SIZE - 32); <-- Show string on screen;
+
 
 // CHECK FUNCTION DELETE LATER
 void print_args(char **argv)
@@ -95,9 +99,6 @@ char	*get_map_str(char *file_name, t_game *game)
 }
 
 
-
-
-
 void	init_empty_game_and_img(t_game *game)
 {
 	t_img	*img;
@@ -158,32 +159,6 @@ void	render_map(t_game *game)
 		}
 
 }
-
-// void	fill_coll(t_game *game)
-// {
-// 	size_t	x;
-// 	size_t	y;
-
-// 	y = 0;
-// 	while (y < game->height)
-// 		{
-// 			x = 0;
-// 			while (x < game->length)
-// 			{
-// 				check = mlx_image_to_window(game->mlx, game->img->collectible, x * SIZE + SIZE/4, y * SIZE + SIZE / 4);
-// 				if
-// 				x++;
-// 			}
-// 		y++;
-// 		}
-
-// }
-
-
-
-////////////////////////////////////////////////////////////////////
-
-
 
 
 void	init_background(t_img *img, t_game *game)
@@ -263,6 +238,61 @@ void	init_images(t_img *img, t_game *game)
 
 }
 
+
+void	conduct_move(t_game	*game, char **map, char c)
+{
+	if (c == 'w' && map[game->plr_y - 1][game->plr_x] != '1')
+		game->img
+
+}
+
+/**
+ * Key function callback data.
+ * Data related to the mlx_key_hook function
+ * 
+ * @param key The key that was pressed.
+ * @param action The action that was done with the key.
+ * @param os_key The os_key is unique for every key, and will have a 
+ * different value/keycode depending on the platform. 
+ * They may be consistent on different platforms.
+ * @param modifier The modifier key that was pressed, 0 if none.
+ */
+// typedef struct mlx_key_data
+// {
+// 	keys_t		key;
+// 	action_t	action;
+// 	int32_t		os_key;
+// 	modifier_key_t	modifier;
+// }	mlx_key_data_t;
+
+
+ void	move_hook(mlx_key_data_t keydata, void *param)
+ {
+	t_game *game;
+
+	game = (t_game *)param;
+	// ADD EXIT
+
+	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && keydata.action == MLX_PRESS)
+		conduct_move(game, game->map 'w');
+	// if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
+	// 	conduct_move();
+	// if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
+	// 	conduct_move();
+	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
+	// 	conduct_move();
+
+
+ }
+
+ 
+
+
+
+/*
+- Do max and min tiles limit
+- Do resizing
+*/
 int main(int argc, char **argv)
 {
 	t_game	*game;
@@ -292,11 +322,10 @@ int main(int argc, char **argv)
 
 	init_images(game->img, game);
 	render_map(game);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	// fill_coll(game);
-
-
-
-
+	
+	
 	mlx_loop(game->mlx);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	//FOR COMPILATION
