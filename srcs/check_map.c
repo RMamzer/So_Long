@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/01 19:50:34 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:17:58 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void check_extension(char *file_name)
 void	check_empty_lines(t_game *game)
 {
 	char	*map_str;
-	int 	i;
+	int	i;
+
 
 	map_str = game->map_str;
 	i = 0;

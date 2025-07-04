@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmamzer <rmamzer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 13:36:48 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:18:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void print_args(char **argv)
 // CHECK FUNCTION DELETE LATER
 void	print_game_object_data(t_game *game)
 {
-    printf("--- Game Object Data ---\n");
+printf("--- Game Object Data ---\n");
     printf("Player Position: (x=%zu, y=%zu)\n", game->plr_x, game->plr_y);
     printf("Exit Position: (x=%zu, y=%zu)\n", game->exit_x, game->exit_y);
     printf("Total Collectibles: %zu\n", game->collect);
@@ -239,11 +239,24 @@ void	init_images(t_img *img, t_game *game)
 }
 
 
+void	update_map(t_game *game, char **map)
+{
+	if(map[game->plr_y][game->plr_x] == 'C')
+	{
+		game->img->collectible->instances[1].enabled = false;
+		map[game->plr_y][game->plr_x] = '0';
+	}
+}
+
+
 void	conduct_move(t_game	*game, char **map, char c)
 {
 	if (c == 'w' && map[game->plr_y - 1][game->plr_x] != '1')
-		game->img
-
+	{
+		game->plr_y--;
+		game->img->player->instances->y -= SIZE;
+	}
+	update_map(game, game->map);
 }
 
 /**
@@ -270,19 +283,18 @@ void	conduct_move(t_game	*game, char **map, char c)
  {
 	t_game *game;
 
-	game = (t_game *)param;
+	game = param;
 	// ADD EXIT
 
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && keydata.action == MLX_PRESS)
-		conduct_move(game, game->map 'w');
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
+		conduct_move(game, game->map, 'w');
+	// else if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
 	// 	conduct_move();
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
+	// else if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
 	// 	conduct_move();
 	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
 	// 	conduct_move();
-
-
+	
  }
 
  
@@ -323,9 +335,10 @@ int main(int argc, char **argv)
 	init_images(game->img, game);
 	render_map(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	// fill_coll(game);
+
 	
-	
+	mlx_key_hook(game->mlx, move_hook, game);
+
 	mlx_loop(game->mlx);
 //	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
 	//FOR COMPILATION
