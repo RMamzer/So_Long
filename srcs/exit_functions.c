@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 16:12:08 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 19:22:31 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,8 @@ void	free_img(t_game *game, t_img  *img)
 	}
 }
 
-void	error_exit(char *msg, t_game *game)
+void	free_and_exit(t_game *game)
 {
-	if (msg != NULL)
-	{
-	ft_putstr_fd("Error\n", 2);
-	ft_putendl_fd(msg, 2);
-	}
 	if (game != NULL)
 	{
 		if (game->map_str != NULL)
@@ -59,9 +54,29 @@ void	error_exit(char *msg, t_game *game)
 		if(game->img != NULL)
 			free_img(game, game->img);
 		if (game->mlx != NULL)
+		{
+			mlx_close_window(game->mlx);
 			mlx_terminate(game->mlx);
+		}
 		free(game);
 	}
+}
+
+
+void	error_exit(char *msg, t_game *game)
+{
+
+	ft_putstr_fd("Error\n", 2);
+	ft_putendl_fd(msg, 2);
+	free_and_exit(game);
 	exit (1);
 }
+void	success_exit(char *msg, t_game *game)
+{
+	if (msg != NULL)
+		ft_printf("%s [%d]\n",msg , game->steps);
+	free_and_exit(game);
+	exit(0);
+}
+
 

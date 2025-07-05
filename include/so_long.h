@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 17:21:09 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 19:24:26 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	check_walls(t_game	*game);
 //exit_functions
 void	free_map(char **map);
 void	error_exit(char *msg, t_game *game);
+void	success_exit(char *msg, t_game *game);
+void	free_and_exit(t_game *game);
 
 
 //check_route

@@ -6,11 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:56:08 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/05/23 13:04:20 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 18:54:03 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
 char	*update_output(char *buffer, char *output, int	*check)
 {

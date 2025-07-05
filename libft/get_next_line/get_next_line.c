@@ -6,11 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:27 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/05/22 16:34:48 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 18:53:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
 char	*get_next_line(int fd)
 {

@@ -6,36 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 17:32:31 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 19:29:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-
-	//mlx_put_string(game->mlx, "HELLO WORLD",16,game->height* SIZE - 32); <-- Show string on screen;
-
-
-// CHECK FUNCTION DELETE LATER
-void print_args(char **argv)
-{
-	int i = 0;
-	while (argv[i])
-	{
-		printf("argv[%d]: |%s|\n", i, argv[i]);
-		i++;
-	}
-	printf("\n\n");
-}
-// CHECK FUNCTION DELETE LATER
-void	print_game_object_data(t_game *game)
-{
-printf("--- Game Object Data ---\n");
-    printf("Player Position: (x=%zu, y=%zu)\n", game->plr_x, game->plr_y);
-    printf("Exit Position: (x=%zu, y=%zu)\n", game->exit_x, game->exit_y);
-    printf("Total Collectibles: %zu\n", game->collect);
-    printf("------------------------\n");
-}
 
 
 char	*so_strjoin(char *s1, char *s2)
@@ -271,7 +246,7 @@ void	update_map(t_game *game, char **map)
 	if(map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
 	{
 		mlx_close_window(game->mlx);
-		error_exit("EXIT", game);
+		success_exit("Congratilations, your move score is:", game);
 	}
 }
 
@@ -301,29 +276,9 @@ void	conduct_move(t_game	*game, char c)
 		game->plr_x--;
 	move_player_image(game, game->img, game->plr_x, game->plr_y);
 	game->steps++;
-	printf("total steps: %d\n", game->steps); //<---- delete steps
+	ft_printf("total steps: %d\n", game->steps); //<---- delete steps
 	update_map(game, game->map);
 }
-
-/**
- * Key function callback data.
- * Data related to the mlx_key_hook function
- *
- * @param key The key that was pressed.
- * @param action The action that was done with the key.
- * @param os_key The os_key is unique for every key, and will have a
- * different value/keycode depending on the platform.
- * They may be consistent on different platforms.
- * @param modifier The modifier key that was pressed, 0 if none.
- */
-// typedef struct mlx_key_data
-// {
-// 	keys_t		key;
-// 	action_t	action;
-// 	int32_t		os_key;
-// 	modifier_key_t	modifier;
-// }	mlx_key_data_t;
-
 
 void	move_hook(mlx_key_data_t keydata, void *param)
 {
@@ -382,14 +337,6 @@ int main(int argc, char **argv)
 	mlx_key_hook(game->mlx, move_hook, game);
 
 	mlx_loop(game->mlx);
-//	print_args(map); // DELETE <---------------------------------------------------------------------------------------------
-	//FOR COMPILATION
-	//  mlx_ptr = mlx_init(256,256,"POPIK", false);
-	// if (!mlx_ptr)
-	// 	return (1);
 
-	//  mlx_loop(mlx_ptr);
-
-	error_exit(NULL, game);
-	return (0);
+	success_exit(NULL, game);
 }
