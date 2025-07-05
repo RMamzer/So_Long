@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 16:35:10 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 16:12:08 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	free_img(t_game *game, t_img  *img)
 			mlx_delete_image(game->mlx, img->exit);
 		if (img->player != NULL)
 			mlx_delete_image(game->mlx, img->player);
+		if(img ->player_t != NULL)
+			mlx_delete_texture(img->player_t);
 		if (img->wall != NULL)
 			mlx_delete_image(game->mlx, img->wall);
 		free(img);
-
 	}
 }
 

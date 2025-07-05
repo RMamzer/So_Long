@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 17:11:52 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:32:31 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	init_empty_game_and_img(t_game *game)
 	game->map_str = NULL;
 	game->map = NULL;
 	game->collect = 0;
+	game->steps = 0;
 	game->mlx = NULL;
 	img = malloc(sizeof(t_img));
 	if (!img)
@@ -115,6 +116,7 @@ void	init_empty_game_and_img(t_game *game)
 	img->collectible = NULL;
 	img->exit = NULL;
 	img->player = NULL;
+	img->player_t = NULL;
 	img->wall = NULL;
 
 }
@@ -160,7 +162,6 @@ void	render_map(t_game *game)
 
 }
 
-
 void	init_background(t_img *img, t_game *game)
 {
 	mlx_texture_t	*png;
@@ -176,12 +177,10 @@ void	init_background(t_img *img, t_game *game)
 
 void	init_player(t_img *img, t_game *game)
 {
-	mlx_texture_t	*png;
-	png = mlx_load_png("./imgs/player.png");
-	if (!png)
+	img->player_t = mlx_load_png("./imgs/player.png");
+	if (!(img->player_t))
 		error_exit("Error during loading player image", game);
-	img->player = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
+	img->player = mlx_texture_to_image(game->mlx, img->player_t);
 	if (!img->player)
 		error_exit("Error during converting player image", game);
 	mlx_resize_image(img->player,SIZE,SIZE);
@@ -235,7 +234,6 @@ void	init_images(t_img *img, t_game *game)
 	init_collectible(img,game);
 	init_wall(img, game);
 	init_exit(img,game);
-
 }
 
 void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
@@ -255,11 +253,12 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 					i++;
 				if(y == game->plr_y && x == game->plr_x)
 				{
+					if(coll->instances[i].enabled == false)
+						return;
 					coll->instances[i].enabled = false;
 					game->collect--;
 					return ;
 				}
-
 				x++;
 			}
 		y++;
@@ -268,25 +267,41 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 void	update_map(t_game *game, char **map)
 {
 	if(map[game->plr_y][game->plr_x] == 'C')
-	{
 		pickup_collectible(game, map, game->img->collectible);
-		map[game->plr_y][game->plr_x] = '0';
-	}
 	if(map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
 	{
 		mlx_close_window(game->mlx);
-		error_exit("Raketa poshla", game);
+		error_exit("EXIT", game);
 	}
 }
 
-
-void	conduct_move(t_game	*game, char **map, char c)
+void move_player_image(t_game *game, t_img *img, size_t x, size_t y)
 {
-	if (c == 'w' && map[game->plr_y - 1][game->plr_x] != '1')
-	{
+	int32_t check;
+	mlx_delete_image(game->mlx, img->player);
+	img->player = mlx_texture_to_image(game->mlx, img->player_t);
+	if (!img->player)
+		error_exit("Failed to update player image", game);
+	mlx_resize_image(img->player, SIZE, SIZE);
+	check = mlx_image_to_window(game->mlx, img->player, x * SIZE, y * SIZE);
+	if (check < 0)
+		error_exit("Failed to redraw player image", game);
+}
+
+void	conduct_move(t_game	*game, char c)
+{
+
+	if (c == 'w' && game->map[game->plr_y - 1][game->plr_x] != '1')
 		game->plr_y--;
-		game->img->player->instances->y -= SIZE;
-	}
+	if (c == 's' && game->map[game->plr_y + 1][game->plr_x ] != '1')
+		game->plr_y++;
+	if (c == 'd' && game->map[game->plr_y][game->plr_x + 1] != '1')
+		game->plr_x++;
+	if (c == 'a' && game->map[game->plr_y][game->plr_x - 1] != '1')
+		game->plr_x--;
+	move_player_image(game, game->img, game->plr_x, game->plr_y);
+	game->steps++;
+	printf("total steps: %d\n", game->steps); //<---- delete steps
 	update_map(game, game->map);
 }
 
@@ -310,27 +325,23 @@ void	conduct_move(t_game	*game, char **map, char c)
 // }	mlx_key_data_t;
 
 
- void	move_hook(mlx_key_data_t keydata, void *param)
- {
+void	move_hook(mlx_key_data_t keydata, void *param)
+{
 	t_game *game;
 	game = param;
-	// ADD EXIT
+
+	// ADD_EXIT
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && keydata.action == MLX_PRESS)
-		conduct_move(game, game->map, 'w');
-	// else if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
-	// 	conduct_move();
-	// else if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
-	// 	conduct_move();
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
-	// 	conduct_move();
-
- }
-
-
-
-
+		conduct_move(game, 'w');
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
+		conduct_move(game, 'd');
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
+		conduct_move(game, 'a');
+	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
+		conduct_move(game, 's');
+}
 
 /*
 - Do max and min tiles limit
@@ -348,7 +359,6 @@ int main(int argc, char **argv)
 		error_exit("Malloc misfunction in game struct",NULL);
 	init_empty_game_and_img(game);
 	game->map_str = get_map_str(argv[1], game);
-	printf ("%s\n", game->map_str);//DELETE <---------------------------------------------------------------------------------------------
 	check_map_objects(game);
 	check_empty_lines(game);
 	game->map = ft_split(game->map_str,'\n');

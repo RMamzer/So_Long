@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/04 16:54:15 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:21:09 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@
 typedef struct s_img
 {
 
-mlx_image_t	*background;
-mlx_image_t	*player;
-mlx_image_t	*collectible;
-mlx_image_t	*wall;
-mlx_image_t	*exit;
+mlx_image_t		*background;
+mlx_image_t		*player;
+mlx_texture_t	*player_t;
+mlx_image_t		*collectible;
+mlx_image_t		*wall;
+mlx_image_t		*exit;
 } t_img;
 
 
@@ -49,6 +50,7 @@ typedef struct s_game
 	bool 	exit_found;
 	mlx_t	*mlx;
 	t_img	*img;
+	int		steps;
 } t_game;
 
 
