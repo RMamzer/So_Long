@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 17:59:56 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/07 20:22:43 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	check_map_shape(t_game *game)
 			error_exit("Map must be rectangular", game);
 		height ++;
 	}
-	if (length > 60)
+	if (length * SIZE > 3840)
 		error_exit("Map is too wide :(", game);
-	if (height > 25)
+	if (height * SIZE > 2160)
 		error_exit("Map is too tall :(", game);
 	game->length = length;
 	game->height = height;
