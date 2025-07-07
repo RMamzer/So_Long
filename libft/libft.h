@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:12:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 18:53:32 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/07 16:21:28 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-
 
 typedef struct s_list
 {
@@ -70,7 +69,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
-
 //get_next_line functions
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
@@ -82,18 +80,16 @@ void	ft_strcpy_modified(char *dest, char *src, size_t n);
 char	*check_buffer(char *buffer, char *output, int	*check);
 size_t	ft_strlen_modified(char *str);
 
-
 //ft_printf functions
 # define BASE16U "0123456789ABCDEF"
 # define BASE16L "0123456789abcdef"
 # define BASE10 "0123456789"
 
-int	ft_printf(const char *format, ...);
-int	do_conversion(const char *str, va_list *arg_list);
-int	ftpf_putchar(char c);
-int	ftpf_putstr(char *str);
-int	ftpf_putbase(unsigned long num, unsigned int base, char *str);
-int	ftpf_putint(long num);
-int	ftpf_putptr(void *ptr);
+int		ft_printf(const char *format, ...);
+int		do_conversion(const char *str, va_list *arg_list);
+int		ftpf_putchar(char c);
+int		ftpf_putstr(char *str);
+int		ftpf_putbase(unsigned long num, unsigned int base, char *str);
+int		ftpf_putint(long num);
+int		ftpf_putptr(void *ptr);
 #endif
-

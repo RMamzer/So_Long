@@ -6,73 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 19:29:47 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/07 16:37:40 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-
-char	*so_strjoin(char *s1, char *s2)
-{
-	char	*joinedstr;
-	size_t	str1_l;
-	size_t	str2_l;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		str1_l = 0;
-	else
-		str1_l = ft_strlen(s1);
-	str2_l = ft_strlen(s2);
-	joinedstr = malloc(str1_l + str2_l + 1);
-	if (!joinedstr)
-	{
-		free (s1);
-		free (s2);
-		return (NULL);
-	}
-	ft_memcpy(joinedstr, s1, str1_l);
-	ft_memcpy(joinedstr + str1_l, s2, str2_l);
-	joinedstr[str1_l + str2_l] = '\0';
-	free (s1);
-	free (s2);
-	return (joinedstr);
-}
-
-
-
-
-
-char	*get_map_str(char *file_name, t_game *game)
-{
-	int		fd;
-	char	*next_line;
-	char	*map_str;
-
-	map_str = NULL;
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		error_exit("Cannot open the map 🗺️", game);
-	while (1)
-	{
-		next_line = get_next_line(fd);
-		if (!next_line)
-			break;
-		map_str = so_strjoin(map_str, next_line);
-		if (!map_str)
-		{
-			close(fd);
-			error_exit("Malloc function misfunction", game);
-		}
-	}
-	close(fd);
-	if (map_str == NULL)
-		error_exit("Empty file", game);
-	return (map_str);
-}
-
 
 void	init_empty_game_and_img(t_game *game)
 {
@@ -85,7 +23,7 @@ void	init_empty_game_and_img(t_game *game)
 	game->mlx = NULL;
 	img = malloc(sizeof(t_img));
 	if (!img)
-		error_exit("Malloc misfunction in game struct",game);
+		error_exit("Malloc misfunction in image struct", game);
 	game->img = img;
 	img->background = NULL;
 	img->collectible = NULL;
@@ -93,250 +31,50 @@ void	init_empty_game_and_img(t_game *game)
 	img->player = NULL;
 	img->player_t = NULL;
 	img->wall = NULL;
-
 }
 
-void	place_object(t_game *game, size_t x, size_t y)
+void	get_images(t_img *img, t_game *game)
 {
-	int32_t check;
-
-	check = 0;
-	if (game->map[y][x] == 'P')
-		check = mlx_image_to_window(game->mlx, game->img->player, x * SIZE, y * SIZE);
-	else if (game->map[y][x] == 'C')
-		check = mlx_image_to_window(game->mlx, game->img->collectible, x * SIZE + SIZE / 4, y * SIZE + SIZE / 3);
-	else if (game->map[y][x] == '1')
-		check = mlx_image_to_window(game->mlx, game->img->wall, x * SIZE, y * SIZE);
-	else if (game->map[y][x] == 'E')
-		check = mlx_image_to_window(game->mlx, game->img->exit, x * SIZE, y * SIZE);
-	if (check < 0)
-		error_exit("Could not place the object", game);
+	get_background(img, game);
+	get_player(img, game);
+	get_collectible(img, game);
+	get_wall(img, game);
+	get_exit(img, game);
 }
 
-void	render_map(t_game *game)
+void	parse_map(t_game *game, char **argv)
 {
-	size_t	x;
-	size_t	y;
-	int32_t	check;
-
-	y = 0;
-	while (y < game->height)
-		{
-			x = 0;
-			while (x < game->length)
-			{
-				check  = 0;
-				check = mlx_image_to_window(game->mlx, game->img->background, x * SIZE, y * SIZE);// check return value
-				if (check < 0)
-					error_exit("Could not fill the background", game);
-				place_object(game, x, y);
-				x++;
-			}
-		y++;
-		}
-
-}
-
-void	init_background(t_img *img, t_game *game)
-{
-	mlx_texture_t	*png;
-	png = mlx_load_png("./imgs/background.png");
-	if (!png)
-		error_exit("Error during loading background image", game);
-	img->background = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
-	if (!img->background)
-		error_exit("Error during converting background image", game);
-	mlx_resize_image(img->background,SIZE,SIZE);
-}
-
-void	init_player(t_img *img, t_game *game)
-{
-	img->player_t = mlx_load_png("./imgs/player.png");
-	if (!(img->player_t))
-		error_exit("Error during loading player image", game);
-	img->player = mlx_texture_to_image(game->mlx, img->player_t);
-	if (!img->player)
-		error_exit("Error during converting player image", game);
-	mlx_resize_image(img->player,SIZE,SIZE);
-}
-
-
-void	init_collectible(t_img *img, t_game *game)
-{
-	mlx_texture_t	*png;
-	png = mlx_load_png("./imgs/collectible.png");
-	if (!png)
-		error_exit("Error during loading collectible image", game);
-	img->collectible = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
-	if (!img->collectible)
-		error_exit("Error during converting collectible image", game);
-	mlx_resize_image(img->collectible,SIZE / 2 ,SIZE / 2 );
-}
-
-
-
-void	init_wall(t_img *img, t_game *game)
-{
-	mlx_texture_t	*png;
-	png = mlx_load_png("./imgs/wall.png");
-	if (!png)
-		error_exit("Error during loading wall image", game);
-	img->wall = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
-	if (!img->wall)
-		error_exit("Error during converting wall image", game);
-	mlx_resize_image(img->wall,SIZE, SIZE);
-}
-void	init_exit(t_img *img, t_game *game)
-{
-	mlx_texture_t	*png;
-	png = mlx_load_png("./imgs/exit.png");
-	if (!png)
-		error_exit("Error during loading wall./	 image", game);
-	img->exit = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
-	if (!img->wall)
-		error_exit("Error during converting wall image", game);
-	mlx_resize_image(img->exit,SIZE, SIZE);
-}
-
-void	init_images(t_img *img, t_game *game)
-{
-	init_background(img, game);
-	init_player(img, game);
-	init_collectible(img,game);
-	init_wall(img, game);
-	init_exit(img,game);
-}
-
-void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
-{
-	size_t	x;
-	size_t	y;
-	int		i;
-
-	i = -1;
-	y = 0;
-	while (y < game->height)
-		{
-			x = 0;
-			while (x < game->length)
-			{
-				if(map[y][x] == 'C')
-					i++;
-				if(y == game->plr_y && x == game->plr_x)
-				{
-					if(coll->instances[i].enabled == false)
-						return;
-					coll->instances[i].enabled = false;
-					game->collect--;
-					return ;
-				}
-				x++;
-			}
-		y++;
-		}
-}
-void	update_map(t_game *game, char **map)
-{
-	if(map[game->plr_y][game->plr_x] == 'C')
-		pickup_collectible(game, map, game->img->collectible);
-	if(map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
-	{
-		mlx_close_window(game->mlx);
-		success_exit("Congratilations, your move score is:", game);
-	}
-}
-
-void move_player_image(t_game *game, t_img *img, size_t x, size_t y)
-{
-	int32_t check;
-	mlx_delete_image(game->mlx, img->player);
-	img->player = mlx_texture_to_image(game->mlx, img->player_t);
-	if (!img->player)
-		error_exit("Failed to update player image", game);
-	mlx_resize_image(img->player, SIZE, SIZE);
-	check = mlx_image_to_window(game->mlx, img->player, x * SIZE, y * SIZE);
-	if (check < 0)
-		error_exit("Failed to redraw player image", game);
-}
-
-void	conduct_move(t_game	*game, char c)
-{
-
-	if (c == 'w' && game->map[game->plr_y - 1][game->plr_x] != '1')
-		game->plr_y--;
-	if (c == 's' && game->map[game->plr_y + 1][game->plr_x ] != '1')
-		game->plr_y++;
-	if (c == 'd' && game->map[game->plr_y][game->plr_x + 1] != '1')
-		game->plr_x++;
-	if (c == 'a' && game->map[game->plr_y][game->plr_x - 1] != '1')
-		game->plr_x--;
-	move_player_image(game, game->img, game->plr_x, game->plr_y);
-	game->steps++;
-	ft_printf("total steps: %d\n", game->steps); //<---- delete steps
-	update_map(game, game->map);
-}
-
-void	move_hook(mlx_key_data_t keydata, void *param)
-{
-	t_game *game;
-	game = param;
-
-	// ADD_EXIT
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && keydata.action == MLX_PRESS)
-		conduct_move(game, 'w');
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && keydata.action == MLX_PRESS)
-		conduct_move(game, 'd');
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && keydata.action == MLX_PRESS)
-		conduct_move(game, 'a');
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && keydata.action == MLX_PRESS)
-		conduct_move(game, 's');
-}
-
-/*
-- Do max and min tiles limit
-- Do resizing
-*/
-int main(int argc, char **argv)
-{
-	t_game	*game;
-
-	if (argc != 2)
-		error_exit("Invalid number of files ༼ ▀̿̿Ĺ̯̿̿▀̿ ༼ ▀̿̿Ĺ̯̿̿▀̿༽▀̿̿Ĺ̯̿̿▀̿ ༽", NULL);
-	check_extension(argv[1]);
-	game = malloc(sizeof(t_game));
-	if (!game)
-		error_exit("Malloc misfunction in game struct",NULL);
-	init_empty_game_and_img(game);
 	game->map_str = get_map_str(argv[1], game);
 	check_map_objects(game);
 	check_empty_lines(game);
-	game->map = ft_split(game->map_str,'\n');
-	if(!game->map)
+	game->map = ft_split(game->map_str, '\n');
+	if (!game->map)
 		error_exit("Malloc misfunction in ft_split", game);
 	check_map_shape(game);
 	check_walls(game);
 	check_route(game);
-	game->mlx = mlx_init(SIZE * (game->length), SIZE * (game->height), "GAZMIAS", true);//width-height
+}
+
+int	main(int argc, char **argv)
+{
+	t_game	*game;
+
+	if (argc != 2)
+		error_exit("Invalid number of files", NULL);
+	check_extension(argv[1]);
+	game = malloc(sizeof(t_game));
+	if (!game)
+		error_exit("Malloc misfunction in game struct", NULL);
+	init_empty_game_and_img(game);
+	parse_map(game, argv);
+	game->mlx = mlx_init(SIZE * (game->length),
+			SIZE * (game->height), "SO_LONG", true);
 	if (!(game->mlx))
 		error_exit("MLX initialization broke", game);
-
-
-
-
-	init_images(game->img, game);
+	get_images(game->img, game);
 	render_map(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-
-
 	mlx_key_hook(game->mlx, move_hook, game);
-
 	mlx_loop(game->mlx);
-
 	success_exit(NULL, game);
 }

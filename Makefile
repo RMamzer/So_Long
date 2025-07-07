@@ -6,15 +6,15 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/07/02 16:10:14 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/07/07 15:12:16 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-CC = cc -g
-#CHECK FLAGS BEFORE SUBMISSION. ALSO FOR FUTURE: -Ofast
-C_FLAGS = -Wall -Wextra -Werror -Wunreachable-code -g
+CC = cc
+
+C_FLAGS = -Wall -Wextra -Werror
 
 MLX42_DIR = ./MLX42
 MLX42 = $(MLX42_DIR)/build/libmlx42.a
@@ -27,9 +27,11 @@ OBJS_DIR = objs/
 SRCS_DIR = srcs/
 
 HEADERS = -I ./include -I $(MLX42_DIR)/include -I $(LIBFT_DIR)
+
 MLX42_LIBS =  $(MLX42) -ldl -lglfw -pthread -lm
 
-SRCS =  main.c check_map.c exit_functions.c check_route.c
+SRCS =  main.c check_map.c check_map2.c exit_functions.c get_visuals.c\
+		move_functions.c render_visuals.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 .SECONDARY: ${OBJS}
@@ -51,8 +53,6 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
 
-
-# Do i need to add headers
 $(NAME): $(OBJS) $(LIBFT) $(MLX42)
 	$(CC) $(C_FLAGS) $(OBJS) $(LIBFT) $(MLX42_LIBS) -o $(NAME)
 

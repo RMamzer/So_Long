@@ -6,13 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/05 19:22:31 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/07 16:31:28 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/so_long.h"
-
 
 void	free_map(char **map)
 {
@@ -23,7 +21,8 @@ void	free_map(char **map)
 		free(map[i++]);
 	free(map);
 }
-void	free_img(t_game *game, t_img  *img)
+
+void	free_img(t_game *game, t_img *img)
 {
 	if (img != NULL)
 	{
@@ -35,7 +34,7 @@ void	free_img(t_game *game, t_img  *img)
 			mlx_delete_image(game->mlx, img->exit);
 		if (img->player != NULL)
 			mlx_delete_image(game->mlx, img->player);
-		if(img ->player_t != NULL)
+		if (img->player_t != NULL)
 			mlx_delete_texture(img->player_t);
 		if (img->wall != NULL)
 			mlx_delete_image(game->mlx, img->wall);
@@ -51,7 +50,7 @@ void	free_and_exit(t_game *game)
 			free (game->map_str);
 		if (game->map != NULL)
 			free_map (game->map);
-		if(game->img != NULL)
+		if (game->img != NULL)
 			free_img(game, game->img);
 		if (game->mlx != NULL)
 		{
@@ -62,21 +61,18 @@ void	free_and_exit(t_game *game)
 	}
 }
 
-
 void	error_exit(char *msg, t_game *game)
 {
-
 	ft_putstr_fd("Error\n", 2);
 	ft_putendl_fd(msg, 2);
 	free_and_exit(game);
 	exit (1);
 }
+
 void	success_exit(char *msg, t_game *game)
 {
 	if (msg != NULL)
-		ft_printf("%s [%d]\n",msg , game->steps);
+		ft_printf("%s [%d]\n", msg, game->steps);
 	free_and_exit(game);
 	exit(0);
 }
-
-
