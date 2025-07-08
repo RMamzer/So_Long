@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:02:10 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 14:24:42 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:38:17 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	get_background(t_img *img, t_game *game)
 
 void	get_player(t_img *img, t_game *game)
 {
-	img->player_t = mlx_load_png("./imgs/enemy.png");
+	img->player_t = mlx_load_png("./imgs/player.png");
 	if (!(img->player_t))
 		error_exit("Error during loading player image", game);
 	img->player = mlx_texture_to_image(game->mlx, img->player_t);
@@ -77,4 +77,18 @@ void	get_exit(t_img *img, t_game *game)
 	if (!img->wall)
 		error_exit("Error during converting wall image", game);
 	mlx_resize_image(img->exit, SIZE, SIZE);
+}
+
+void	get_enemy(t_img *img, t_game *game)
+{
+	mlx_texture_t	*png;
+
+	png = mlx_load_png("./imgs/enemy.png");
+	if (!png)
+		error_exit("Error during loading enemy image", game);
+	img->enemy = mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->enemy)
+		error_exit("Error during converting enemy image", game);
+	mlx_resize_image(img->enemy, SIZE, SIZE);
 }

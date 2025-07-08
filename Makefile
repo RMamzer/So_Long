@@ -6,7 +6,7 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/07/08 14:50:21 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/07/08 16:45:16 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ BONUS_NAME = so_long.bonus
 
 CC = cc
 
-C_FLAGS = -Wall -Wextra -Werror
+C_FLAGS = -Wall -Wextra -Werror -g
 
 MLX42_DIR = ./MLX42
 MLX42 = $(MLX42_DIR)/build/libmlx42.a

@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:02:10 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 18:22:03 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:29:17 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	get_background(t_img *img, t_game *game)
 
 void	get_player(t_img *img, t_game *game)
 {
-	img->player_t = mlx_load_png("./imgs/enemy.png");
+	img->player_t = mlx_load_png("./imgs/player.png");
 	if (!(img->player_t))
 		error_exit("Error during loading player image", game);
 	img->player = mlx_texture_to_image(game->mlx, img->player_t);

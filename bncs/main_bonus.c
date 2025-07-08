@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 14:55:06 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:52:46 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	init_empty_game_and_img(t_game *game)
 	img->player = NULL;
 	img->player_t = NULL;
 	img->wall = NULL;
-	img->text_head = NULL;
+	img->enemy = NULL;
+	img->text_str = NULL;
+	img->text_num = NULL;
 }
 
 void	get_images(t_img *img, t_game *game)
@@ -42,6 +44,7 @@ void	get_images(t_img *img, t_game *game)
 	get_collectible(img, game);
 	get_wall(img, game);
 	get_exit(img, game);
+	get_enemy(img,game);
 }
 
 void	parse_map(t_game *game, char **argv)
@@ -70,7 +73,7 @@ int	main(int argc, char **argv)
 	init_empty_game_and_img(game);
 	parse_map(game, argv);
 	game->mlx = mlx_init(SIZE * (game->length),
-			SIZE * (game->height), "SO_LONG", true);
+			SIZE * (game->height + 1), "SO_LONG", true);
 	if (!(game->mlx))
 		error_exit("MLX initialization broke", game);
 	get_images(game->img, game);

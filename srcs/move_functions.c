@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:38 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 17:01:37 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:56:25 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ void	update_map(t_game *game, char **map)
 	if (map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
 	{
 		mlx_close_window(game->mlx);
-		success_exit("Congratilations, your total steps are:", game);
+		success_exit("Congratulations, your total steps are:", game);
 	}
 }

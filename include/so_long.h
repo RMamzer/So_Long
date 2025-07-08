@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 15:21:31 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:32:40 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ typedef struct s_game
 	size_t	collect;
 	size_t	plr_x;
 	size_t	plr_y;
-	size_t	exit_x;
-	size_t	exit_y;
 	bool	exit_found;
 	mlx_t	*mlx;
 	t_img	*img;

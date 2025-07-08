@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:36:59 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 14:24:48 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:36:08 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void	flood_fill(t_game *copy, size_t x, size_t y)
 {
 	if (copy->collect == 0 && copy->exit_found == true)
 		return ;
-	if (copy->map[y][x] == '1' || copy->map[y][x] == '~')
+	if (copy->map[y][x] == '1' || copy->map[y][x] == '~'
+		|| copy->map[y][x] == 'M')
 		return ;
 	if (copy->map[y][x] == 'E')
 		copy->exit_found = true;

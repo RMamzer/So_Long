@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 14:59:36 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:52:27 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ typedef struct s_img
 	mlx_image_t		*collectible;
 	mlx_image_t		*wall;
 	mlx_image_t		*exit;
-	mlx_image_t		*text_head;
+	mlx_image_t		*enemy;
+	mlx_image_t		*text_str;
+	mlx_image_t		*text_num;
 }	t_img;
 
 typedef struct s_game
@@ -96,4 +98,6 @@ void	move_player_image(t_game *game, t_img *img, size_t x, size_t y);
 
 //extra bonus functions
 void	display_moves_text(t_game *game);
+void	display_moves_num(t_game *game);
+void	get_enemy(t_img *img, t_game *game);
 #endif

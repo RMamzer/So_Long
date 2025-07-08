@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 15:37:19 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:44:34 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	check_map_objects(t_game *game)
 	while (*map_str)
 	{
 		if (*map_str != '0' && *map_str != '1' && *map_str != 'C'
-			&& *map_str != 'E' && *map_str != 'P' && *map_str != '\n')
+			&& *map_str != 'E' && *map_str != 'P' && *map_str != '\n'
+			&& *map_str != 'M')
 			error_exit("Incorrect objects detected on the map", game);
 		if (*map_str == 'C')
 			collectible++;

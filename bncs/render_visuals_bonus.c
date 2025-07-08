@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:35:01 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 15:09:33 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:39:52 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	place_object(t_game *game, size_t x, size_t y)
 	else if (game->map[y][x] == 'E')
 		check = mlx_image_to_window(game->mlx, game->img->exit,
 				x * SIZE, y * SIZE);
+	else if (game->map[y][x] == 'M')
+		check = mlx_image_to_window(game->mlx, game->img->enemy,
+				x * SIZE, y * SIZE);
 	if (check < 0)
 		error_exit("Could not place the object", game);
 }
@@ -99,12 +102,31 @@ void	move_player_image(t_game *game, t_img *img, size_t x, size_t y)
 	if (check < 0)
 		error_exit("Failed to redraw player image", game);
 	game->steps++;
-	ft_printf("current steps: %d\n", game->steps);
+	display_moves_num(game);
 }
 
 void	display_moves_text(t_game *game)
 {
-	game->img->text_head = mlx_put_string(game->mlx," NUMBER OF MOVES:", 0 , 0);
-	if (!game->img->text_head)
+	game->img->text_str = mlx_put_string(game->mlx," NUMBER OF MOVES:", 0 , game->height * SIZE );
+	if (!game->img->text_str)
 		error_exit("Failed to write text into the screen", game);
+	display_moves_num(game);
+}
+
+void	display_moves_num(t_game *game)
+{
+	char *num_str;
+
+	if (game->img->text_num != NULL)
+		mlx_delete_image(game->mlx, game->img->text_num);
+	num_str = ft_itoa(game->steps);
+	if (!num_str)
+		error_exit("Itoa conversion failed", game);
+	game->img->text_num = mlx_put_string (game->mlx, num_str, 170,  game->height * SIZE);
+	if (!game->img->text_num)
+	{
+		free (num_str);
+		error_exit("Failed to write number of steps into the screen", game);
+	}
+	free(num_str);
 }

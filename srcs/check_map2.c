@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:36:59 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 16:29:13 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:32:31 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ void	find_objects(t_game *game)
 			{
 				game->plr_x = x;
 				game->plr_y = y;
-			}
-			else if (game->map[y][x] == 'E' )
-			{
-				game->exit_x = x;
-				game->exit_y = y;
 			}
 			else if (game->map[y][x] == 'C')
 				game->collect++;

@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:38 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 14:24:35 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:00:40 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,17 @@ void	move_hook(mlx_key_data_t keydata, void *param)
 
 void	update_map(t_game *game, char **map)
 {
+	if (map[game->plr_y][game->plr_x] == 'M')
+	{
+		mlx_close_window(game->mlx);
+		ft_printf("Oh NOOOO... The ghost got you :(. You have lost\n");
+		success_exit(NULL, game);
+	}
 	if (map[game->plr_y][game->plr_x] == 'C')
 		pickup_collectible(game, map, game->img->collectible);
 	if (map[game->plr_y][game->plr_x] == 'E' && game->collect == 0)
 	{
 		mlx_close_window(game->mlx);
-		success_exit("Congratilations, your total steps are:", game);
+		success_exit("Congratulations, your total steps are:", game);
 	}
 }
