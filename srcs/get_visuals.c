@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:02:10 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:29:17 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:38:50 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	get_exit(t_img *img, t_game *game)
 
 	png = mlx_load_png("./imgs/exit.png");
 	if (!png)
-		error_exit("Error during loading wall./	 image", game);
+		error_exit("Error during loading exit image", game);
 	img->exit = mlx_texture_to_image(game->mlx, png);
 	mlx_delete_texture(png);
-	if (!img->wall)
-		error_exit("Error during converting wall image", game);
+	if (!img->exit)
+		error_exit("Error during converting exit image", game);
 	mlx_resize_image(img->exit, SIZE, SIZE);
 }

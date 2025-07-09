@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:44:34 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:30:29 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	check_map_shape(t_game *game)
 	}
 	if (length * SIZE > 3840)
 		error_exit("Map is too wide :(", game);
-	if (height * SIZE > 2160)
+	if ((height + 1) * SIZE > 2160)
 		error_exit("Map is too tall :(", game);
 	game->length = length;
 	game->height = height;

@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:52:27 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:58:44 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,23 @@
 typedef struct s_img
 {
 	mlx_image_t		*background;
-	mlx_image_t		*player;
-	mlx_texture_t	*player_t;
+	mlx_image_t		*player_right;
+	mlx_image_t		*player_left;
+	mlx_texture_t	*player_t_right;
+	mlx_texture_t	*player_t_left;
 	mlx_image_t		*collectible;
 	mlx_image_t		*wall;
 	mlx_image_t		*exit;
+	mlx_image_t		*exit_closed;
 	mlx_image_t		*enemy;
 	mlx_image_t		*text_str;
 	mlx_image_t		*text_num;
+	mlx_image_t		*pickup_right;
+	mlx_texture_t	*pickup_t_right;
+	mlx_image_t		*pickup_left;
+	mlx_texture_t	*pickup_t_left;
+	char			direction;
+	bool			pickup_needed;
 }	t_img;
 
 typedef struct s_game
@@ -94,10 +103,13 @@ void	update_map(t_game *game, char **map);
 void	render_map(t_game *game);
 void	place_object(t_game *game, size_t x, size_t y);
 void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll);
-void	move_player_image(t_game *game, t_img *img, size_t x, size_t y);
+void	move_player_image(t_game *game, t_img *img);
 
 //extra bonus functions
 void	display_moves_text(t_game *game);
 void	display_moves_num(t_game *game);
 void	get_enemy(t_img *img, t_game *game);
+void	create_player_direction(t_game *game, t_img *img, size_t x, size_t y);
+void	get_pickup(t_img *img, t_game *game);
+void	update_exit(t_game *game, t_img *img, size_t x, size_t y);
 #endif

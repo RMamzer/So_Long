@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:02:10 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:38:17 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:50:13 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@ void	get_background(t_img *img, t_game *game)
 
 void	get_player(t_img *img, t_game *game)
 {
-	img->player_t = mlx_load_png("./imgs/player.png");
-	if (!(img->player_t))
+	img->player_t_right = mlx_load_png("./imgs/player.png");
+	if (!(img->player_t_right))
 		error_exit("Error during loading player image", game);
-	img->player = mlx_texture_to_image(game->mlx, img->player_t);
-	if (!img->player)
+	img->player_right = mlx_texture_to_image(game->mlx, img->player_t_right);
+	if (!img->player_right)
 		error_exit("Error during converting player image", game);
-	mlx_resize_image(img->player, SIZE, SIZE);
+	img->player_t_left = mlx_load_png("./imgs/player_left.png");
+	if (!(img->player_t_left))
+		error_exit("Error during loading player image", game);
+	img->player_left = mlx_texture_to_image(game->mlx, img->player_t_left);
+	if (!img->player_left)
+		error_exit("Error during converting player image", game);
+	mlx_resize_image(img->player_right, SIZE, SIZE);
 }
 
 void	get_collectible(t_img *img, t_game *game)
@@ -71,12 +77,20 @@ void	get_exit(t_img *img, t_game *game)
 
 	png = mlx_load_png("./imgs/exit.png");
 	if (!png)
-		error_exit("Error during loading wall./	 image", game);
+		error_exit("Error during loading exit image", game);
 	img->exit = mlx_texture_to_image(game->mlx, png);
 	mlx_delete_texture(png);
-	if (!img->wall)
-		error_exit("Error during converting wall image", game);
+	if (!img->exit)
+		error_exit("Error during converting exit image", game);
 	mlx_resize_image(img->exit, SIZE, SIZE);
+	png = mlx_load_png("./imgs/exit_closed.png");
+	if (!png)
+		error_exit("Error during loading closed exit image", game);
+	img->exit_closed= mlx_texture_to_image(game->mlx, png);
+	mlx_delete_texture(png);
+	if (!img->exit_closed)
+		error_exit("Error during converting closed exit image", game);
+	mlx_resize_image(img->exit_closed, SIZE, SIZE);
 }
 
 void	get_enemy(t_img *img, t_game *game)
@@ -91,4 +105,22 @@ void	get_enemy(t_img *img, t_game *game)
 	if (!img->enemy)
 		error_exit("Error during converting enemy image", game);
 	mlx_resize_image(img->enemy, SIZE, SIZE);
+}
+
+void	get_pickup(t_img *img, t_game *game)
+{
+	img->pickup_t_right = mlx_load_png("./imgs/pickup_right.png");
+	if (!(img->pickup_t_right))
+		error_exit("Error during loading player image", game);
+	img->pickup_right = mlx_texture_to_image(game->mlx, img->pickup_t_right);
+	if (!img->pickup_right)
+		error_exit("Error during converting player image", game);
+	img->pickup_t_left = mlx_load_png("./imgs/pickup_left.png");
+	if (!(img->pickup_t_left))
+		error_exit("Error during loading player image", game);
+	img->pickup_left = mlx_texture_to_image(game->mlx, img->pickup_t_left);
+	if (!img->pickup_left)
+		error_exit("Error during converting player image", game);
+	mlx_resize_image(img->pickup_right, SIZE, SIZE);
+	mlx_resize_image(img->pickup_left, SIZE, SIZE);
 }

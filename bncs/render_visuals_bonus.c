@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:35:01 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:39:52 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:56:01 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	place_object(t_game *game, size_t x, size_t y)
 
 	check = 0;
 	if (game->map[y][x] == 'P')
-		check = mlx_image_to_window(game->mlx, game->img->player,
+		check = mlx_image_to_window(game->mlx, game->img->player_right,
 				x * SIZE, y * SIZE);
 	else if (game->map[y][x] == 'C')
 		check = mlx_image_to_window(game->mlx, game->img->collectible,
@@ -52,7 +52,7 @@ void	place_object(t_game *game, size_t x, size_t y)
 		check = mlx_image_to_window(game->mlx, game->img->wall,
 				x * SIZE, y * SIZE);
 	else if (game->map[y][x] == 'E')
-		check = mlx_image_to_window(game->mlx, game->img->exit,
+		check = mlx_image_to_window(game->mlx, game->img->exit_closed,
 				x * SIZE, y * SIZE);
 	else if (game->map[y][x] == 'M')
 		check = mlx_image_to_window(game->mlx, game->img->enemy,
@@ -76,34 +76,75 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 		{
 			if (map[y][x] == 'C')
 				i++;
-			if (y == game->plr_y && x == game->plr_x)
+			if (y == game->plr_y && x == game->plr_x && coll->instances[i].enabled == true)
 			{
-				if (coll->instances[i].enabled == false)
-					return ;
 				coll->instances[i].enabled = false;
 				game->collect--;
-				return ;
+				game->img->pickup_needed = true;
+				move_player_image(game, game->img);
 			}
 			x++;
 		}
 		y++;
 	}
 }
-void	move_player_image(t_game *game, t_img *img, size_t x, size_t y)
+void	update_exit(t_game *game, t_img *img, size_t x, size_t y)
 {
-	int32_t	check;
+	int32_t check;
 
-	mlx_delete_image(game->mlx, img->player);
-	img->player = mlx_texture_to_image(game->mlx, img->player_t);
-	if (!img->player)
-		error_exit("Failed to update player image", game);
-	mlx_resize_image(img->player, SIZE, SIZE);
-	check = mlx_image_to_window(game->mlx, img->player, x * SIZE, y * SIZE);
-	if (check < 0)
-		error_exit("Failed to redraw player image", game);
-	game->steps++;
-	display_moves_num(game);
+	check = 0;
+
+	if (img->exit_closed)
+	{
+		mlx_delete_image(game->mlx, img->exit_closed);
+		check = mlx_image_to_window(game->mlx, img->exit, x * SIZE, y * SIZE);
+		if (check < 0)
+			error_exit("Failed to update exit image", game);
+	}
 }
+
+void	create_pickup_image(t_game *game, t_img *img, size_t x, size_t y)
+{
+	int32_t check;
+
+	check = 0;
+	if (img->direction == 'd')
+	{
+		img->pickup_right = mlx_texture_to_image(game->mlx, img->pickup_t_right);
+		if (!img->pickup_right)
+			error_exit("Failed to update pickup direction", game);
+		mlx_resize_image(img->pickup_right, SIZE, SIZE);
+		check = mlx_image_to_window(game->mlx, img->pickup_right, x * SIZE, y * SIZE);
+	}
+	else
+	{
+		img->pickup_left = mlx_texture_to_image(game->mlx, img->pickup_t_left);
+		if (!img->pickup_left)
+			error_exit("Failed to update pickup direction", game);
+		mlx_resize_image(img->pickup_left, SIZE, SIZE);
+		check = mlx_image_to_window(game->mlx, img->pickup_left, x * SIZE, y * SIZE);
+	}
+	if (check < 0)
+ 		error_exit("Failed to draw pickup image", game);
+	img->pickup_needed= false;
+}
+
+void	move_player_image(t_game *game, t_img *img)
+{
+	if (img -> player_right)
+		mlx_delete_image(game->mlx, img->player_right);
+	if (img -> player_left)
+		mlx_delete_image(game->mlx, img->player_left);
+	if (img -> pickup_right)
+		mlx_delete_image(game->mlx, img->pickup_right);
+	if (img -> pickup_left)
+		mlx_delete_image(game->mlx, img->pickup_left);
+	if (img->pickup_needed == true)
+		create_pickup_image (game, img, game->plr_x,game->plr_y);
+	else
+		create_player_direction(game, img, game->plr_x,game->plr_y);
+}
+
 
 void	display_moves_text(t_game *game)
 {

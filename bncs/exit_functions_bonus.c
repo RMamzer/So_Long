@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:43:02 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:50:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,39 @@ void	free_map(char **map)
 
 void	free_img(t_game *game, t_img *img)
 {
-	if (img != NULL)
-	{
-		if (img->background != NULL)
-			mlx_delete_image(game->mlx, img->background);
-		if (img->collectible != NULL)
-			mlx_delete_image(game->mlx, img->collectible);
-		if (img->exit != NULL)
-			mlx_delete_image(game->mlx, img->exit);
-		if (img->player != NULL)
-			mlx_delete_image(game->mlx, img->player);
-		if (img->player_t != NULL)
-			mlx_delete_texture(img->player_t);
-		if (img->wall != NULL)
-			mlx_delete_image(game->mlx, img->wall);
-		if (img->enemy != NULL)
-			mlx_delete_image(game->mlx, img->enemy);
-		if (img->text_str != NULL)
-			mlx_delete_image(game->mlx, img->text_str);
-		if (img->text_num != NULL)
-			mlx_delete_image(game->mlx, img->text_num);
-		free(img);
-	}
+	if (img->background != NULL)
+		mlx_delete_image(game->mlx, img->background);
+	if (img->collectible != NULL)
+		mlx_delete_image(game->mlx, img->collectible);
+	if (img->exit != NULL)
+		mlx_delete_image(game->mlx, img->exit);
+	if (img->player_right != NULL)
+		mlx_delete_image(game->mlx, img->player_right);
+	if (img->player_t_right != NULL)
+		mlx_delete_texture(img->player_t_right);
+	if (img->player_left != NULL)
+		mlx_delete_image(game->mlx, img->player_left);
+	if (img->player_t_left != NULL)
+		mlx_delete_texture(img->player_t_left);
+	if (img->wall != NULL)
+		mlx_delete_image(game->mlx, img->wall);
+	if (img->enemy != NULL)
+		mlx_delete_image(game->mlx, img->enemy);
+	if (img->text_str != NULL)
+		mlx_delete_image(game->mlx, img->text_str);
+	if (img->text_num != NULL)
+		mlx_delete_image(game->mlx, img->text_num);
+	if (img->pickup_right != NULL)
+		mlx_delete_image(game->mlx, img->pickup_right);
+	if (img->pickup_left != NULL)
+		mlx_delete_image(game->mlx, img->pickup_left);
+	if (img->pickup_t_left != NULL)
+		mlx_delete_texture(img->pickup_t_left);
+	if (img->pickup_t_right != NULL)
+		mlx_delete_texture(img->pickup_t_right);
+	if (img->exit_closed != NULL)
+		mlx_delete_image(game->mlx, img->exit_closed);
+	free(img);
 }
 
 void	free_and_exit(t_game *game)

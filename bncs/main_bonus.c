@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:52:46 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:51:10 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,21 @@ void	init_empty_game_and_img(t_game *game)
 	img->background = NULL;
 	img->collectible = NULL;
 	img->exit = NULL;
-	img->player = NULL;
-	img->player_t = NULL;
+	img->player_left = NULL;
+	img->player_right = NULL;
+	img->player_t_left = NULL;
+	img->player_t_right = NULL;
 	img->wall = NULL;
 	img->enemy = NULL;
 	img->text_str = NULL;
 	img->text_num = NULL;
+	img->direction = 'd';
+	img->pickup_right = NULL;
+	img->pickup_left = NULL;
+	img->pickup_t_right = NULL;
+	img->pickup_t_left = NULL;
+	img->pickup_needed = false;
+	img->exit_closed = NULL;
 }
 
 void	get_images(t_img *img, t_game *game)
@@ -45,6 +54,7 @@ void	get_images(t_img *img, t_game *game)
 	get_wall(img, game);
 	get_exit(img, game);
 	get_enemy(img,game);
+	get_pickup(img,game);
 }
 
 void	parse_map(t_game *game, char **argv)
