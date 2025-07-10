@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:35:01 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 17:56:01 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:14:17 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ void	place_object(t_game *game, size_t x, size_t y)
 		check = mlx_image_to_window(game->mlx, game->img->exit_closed,
 				x * SIZE, y * SIZE);
 	else if (game->map[y][x] == 'M')
-		check = mlx_image_to_window(game->mlx, game->img->enemy,
-				x * SIZE, y * SIZE);
+		place_enemies(game, game->img, x, y);
+		// check = mlx_image_to_window(game->mlx, game->img->enemy,
+		// 		x * SIZE, y * SIZE);
 	if (check < 0)
 		error_exit("Could not place the object", game);
 }
@@ -87,6 +88,27 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 		}
 		y++;
 	}
+}
+
+void place_enemies(t_game *game, t_img *img, size_t x, size_t y)
+{
+	int32_t check;
+	int i;
+
+	check = 0;
+	i = 0;
+
+	while (i<3)
+	{
+		check = mlx_image_to_window(game->mlx, img->enemy[i],
+				x * SIZE, y * SIZE);
+		if  (check < 0)
+			error_exit("Could not place an enemy", game);
+		i++;
+	}
+	img->enemy[0]->enabled = true;
+	img->enemy[1]->enabled = false;
+	img->enemy[2]->enabled = false;
 }
 void	update_exit(t_game *game, t_img *img, size_t x, size_t y)
 {

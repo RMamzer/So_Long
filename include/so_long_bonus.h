@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 17:58:44 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:48:38 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_img
 	mlx_image_t		*wall;
 	mlx_image_t		*exit;
 	mlx_image_t		*exit_closed;
-	mlx_image_t		*enemy;
+	mlx_image_t		*enemy[3];
 	mlx_image_t		*text_str;
 	mlx_image_t		*text_num;
 	mlx_image_t		*pickup_right;
@@ -40,6 +40,9 @@ typedef struct s_img
 	mlx_texture_t	*pickup_t_left;
 	char			direction;
 	bool			pickup_needed;
+	double			time;
+	double 			last_enemy_time;
+	int 			enemy_frame;
 }	t_img;
 
 typedef struct s_game
@@ -112,4 +115,6 @@ void	get_enemy(t_img *img, t_game *game);
 void	create_player_direction(t_game *game, t_img *img, size_t x, size_t y);
 void	get_pickup(t_img *img, t_game *game);
 void	update_exit(t_game *game, t_img *img, size_t x, size_t y);
+void 	place_enemies(t_game *game, t_img *img, size_t x, size_t y);
+// void	enemy_hook(void *temp);
 #endif

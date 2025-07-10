@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 17:51:10 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:01:20 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	init_empty_game_and_img(t_game *game)
 	img->player_t_left = NULL;
 	img->player_t_right = NULL;
 	img->wall = NULL;
-	img->enemy = NULL;
+	img->enemy[0] = NULL;
+	img->enemy[1] = NULL;
+	img->enemy[2] = NULL;
 	img->text_str = NULL;
 	img->text_num = NULL;
 	img->direction = 'd';
@@ -44,6 +46,8 @@ void	init_empty_game_and_img(t_game *game)
 	img->pickup_t_left = NULL;
 	img->pickup_needed = false;
 	img->exit_closed = NULL;
+	img->last_enemy_time = 0;
+	img->enemy_frame = 0;
 }
 
 void	get_images(t_img *img, t_game *game)
@@ -70,6 +74,27 @@ void	parse_map(t_game *game, char **argv)
 	check_route(game);
 }
 
+void	enemy_hook(void *temp)
+{
+	t_game *game;
+	double frame_l;
+	double current_time;
+
+	game = temp;
+	frame_l = 0.2;
+	current_time = mlx_get_time();
+
+	if (current_time - game->img->last_enemy_time >= frame_l)
+	{
+		game->img->enemy_frame = (game->img->enemy_frame + 1) % 3;
+		game->img->last_enemy_time = current_time;
+		game->img->enemy[0]->enabled = false;
+		game->img->enemy[1]->enabled = false;
+		game->img->enemy[2]->enabled = false;
+		game->img->enemy[game->img->enemy_frame]->enabled = true;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	*game;
@@ -90,6 +115,7 @@ int	main(int argc, char **argv)
 	render_map(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	mlx_key_hook(game->mlx, move_hook, game);
+	mlx_loop_hook(game->mlx, enemy_hook, game);
 	mlx_loop(game->mlx);
 	success_exit(NULL, game);
 }

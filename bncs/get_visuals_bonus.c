@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:02:10 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 17:50:13 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 11:49:48 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,27 @@ void	get_exit(t_img *img, t_game *game)
 void	get_enemy(t_img *img, t_game *game)
 {
 	mlx_texture_t	*png;
+	int i;
+	const char *path[3];
 
-	png = mlx_load_png("./imgs/enemy.png");
-	if (!png)
-		error_exit("Error during loading enemy image", game);
-	img->enemy = mlx_texture_to_image(game->mlx, png);
-	mlx_delete_texture(png);
-	if (!img->enemy)
-		error_exit("Error during converting enemy image", game);
-	mlx_resize_image(img->enemy, SIZE, SIZE);
+	i = 0;
+	path[0] = "./imgs/enemy.png";
+	path[1]  = "./imgs/enemy_1.png";
+	path[2]  = "./imgs/enemy_2.png";
+	while (i<3)
+	{
+		png = mlx_load_png(path[i]);
+		if (!png)
+			error_exit("Error during loading enemy image", game);
+		img->enemy[i] = mlx_texture_to_image(game->mlx, png);
+		mlx_delete_texture(png);
+		if (!img->enemy[i])
+			error_exit("Error during converting enemy image", game);
+		mlx_resize_image(img->enemy[i], SIZE, SIZE);
+		i++;
+	}
 }
+
 
 void	get_pickup(t_img *img, t_game *game)
 {

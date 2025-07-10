@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:38 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 17:58:36 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:41:33 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	move_hook(mlx_key_data_t keydata, void *param)
 	t_game	*game;
 
 	game = param;
+
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(game->mlx);
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
@@ -83,6 +84,8 @@ void	move_hook(mlx_key_data_t keydata, void *param)
 		conduct_move(game, 's');
 }
 
+
+
 void	update_map(t_game *game, char **map)
 {
 	if (map[game->plr_y][game->plr_x] == 'M')
@@ -90,7 +93,7 @@ void	update_map(t_game *game, char **map)
 		mlx_close_window(game->mlx);
 		ft_printf("Oh NOOOO... The ghost got you :(. You have lost\n");
 		success_exit(NULL, game);
-	}
+		}
 	if (map[game->plr_y][game->plr_x] == 'C')
 		pickup_collectible(game, map, game->img->collectible);
 	if (game->collect == 0 && game->img->exit_closed)
