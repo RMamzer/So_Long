@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 18:22:51 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:30:48 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	enemy_hook(void *temp);
 void	place_enemies(t_game *game, t_img *img, size_t x, size_t y);
 void	create_pickup_image(t_game *game, t_img *img, size_t x, size_t y);
 
-//new_visual_utils
+//new_visual_utilities
 void	get_pickup(t_img *img, t_game *game);
 void	display_moves_text(t_game *game);
 void	display_moves_num(t_game *game);
