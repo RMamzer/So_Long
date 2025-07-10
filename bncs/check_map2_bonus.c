@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:36:59 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:36:08 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 16:30:55 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_map_str(char *file_name, t_game *game)
 	map_str = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		error_exit("Cannot open the map 🗺️", game);
+		error_exit("Cannot open the map", game);
 	while (1)
 	{
 		next_line = get_next_line(fd);
@@ -122,7 +122,7 @@ void	check_route(t_game *game)
 	find_objects(game);
 	copy.map = ft_split(game->map_str, '\n');
 	if (!copy.map)
-		error_exit("ft_slit malloc broke during map  copying", game);
+		error_exit("ft_slit malloc broke during map copying", game);
 	copy.height = game->height;
 	copy.length = game->length;
 	copy.collect = game->collect;

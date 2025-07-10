@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:35:32 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 13:05:24 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 15:16:23 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,15 @@ void	free_img(t_game *game, t_img *img)
 		mlx_delete_image(game->mlx, img->exit);
 	if (img->player_right != NULL)
 		mlx_delete_image(game->mlx, img->player_right);
-	if (img->player_t_right != NULL)
-		mlx_delete_texture(img->player_t_right);
+	if (img->player_t_r != NULL)
+		mlx_delete_texture(img->player_t_r);
 	if (img->player_left != NULL)
 		mlx_delete_image(game->mlx, img->player_left);
-	if (img->player_t_left != NULL)
-		mlx_delete_texture(img->player_t_left);
+	if (img->player_t_l != NULL)
+		mlx_delete_texture(img->player_t_l);
 	if (img->wall != NULL)
 		mlx_delete_image(game->mlx, img->wall);
-	if (img->enemy[0] != NULL)
-		mlx_delete_image(game->mlx, img->enemy[0]);
-	if (img->enemy[1] != NULL)
-		mlx_delete_image(game->mlx, img->enemy[1]);
-	if (img->enemy[2] != NULL)
-		mlx_delete_image(game->mlx, img->enemy[2]);
-	if (img->text_str != NULL)
-		mlx_delete_image(game->mlx, img->text_str);
-	if (img->text_num != NULL)
-		mlx_delete_image(game->mlx, img->text_num);
-	if (img->pickup_right != NULL)
-		mlx_delete_image(game->mlx, img->pickup_right);
-	if (img->pickup_left != NULL)
-		mlx_delete_image(game->mlx, img->pickup_left);
-	if (img->pickup_t_left != NULL)
-		mlx_delete_texture(img->pickup_t_left);
-	if (img->pickup_t_right != NULL)
-		mlx_delete_texture(img->pickup_t_right);
-	if (img->exit_closed != NULL)
-		mlx_delete_image(game->mlx, img->exit_closed);
+	free_bonus_img(game, img);
 	free(img);
 }
 

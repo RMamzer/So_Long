@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:13:20 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/09 15:30:29 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:57:00 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	check_extension(char *file_name)
 {
 	int	len;
-
 
 	len = ft_strlen(file_name);
 	if (len <= 4 || ft_strncmp(file_name + len - 4, ".ber", 4) != 0)

@@ -6,37 +6,55 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:29:38 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 12:41:33 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 15:15:37 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long_bonus.h"
 
-
 void	create_player_direction(t_game *game, t_img *img, size_t x, size_t y)
 {
-	int32_t check;
+	int32_t	check;
 
 	check = 0;
 	if (img->direction == 'd')
 	{
-		img->player_right = mlx_texture_to_image(game ->mlx, img->player_t_right);
+		img->player_right = mlx_texture_to_image(game->mlx, img->player_t_r);
 		if (!img->player_right)
 			error_exit("Failed to update player direction", game);
 		mlx_resize_image(img->player_right, SIZE, SIZE);
-		check = mlx_image_to_window(game->mlx, img->player_right, x * SIZE, y * SIZE);
+		check = mlx_image_to_window(game->mlx, img->player_right,
+				x * SIZE, y * SIZE);
 	}
 	else
 	{
-		img->player_left = mlx_texture_to_image(game ->mlx, img->player_t_left);
+		img->player_left = mlx_texture_to_image(game->mlx, img->player_t_l);
 		if (!img->player_left)
 			error_exit("Failed to update player direction", game);
 		mlx_resize_image(img->player_left, SIZE, SIZE);
-		check = mlx_image_to_window(game->mlx, img->player_left, x * SIZE, y * SIZE);
+		check = mlx_image_to_window(game->mlx, img->player_left,
+				x * SIZE, y * SIZE);
 	}
 	if (check < 0)
- 		error_exit("Failed to redraw player image", game);
+		error_exit("Failed to redraw player image", game);
 	game->steps++;
+	display_moves_num(game);
+}
+
+void	move_player_image(t_game *game, t_img *img)
+{
+	if (img -> player_right)
+		mlx_delete_image(game->mlx, img->player_right);
+	if (img -> player_left)
+		mlx_delete_image(game->mlx, img->player_left);
+	if (img -> pickup_right)
+		mlx_delete_image(game->mlx, img->pickup_right);
+	if (img -> pickup_left)
+		mlx_delete_image(game->mlx, img->pickup_left);
+	if (img->pickup_needed == true)
+		create_pickup_image(game, img, game->plr_x, game->plr_y);
+	else
+		create_player_direction(game, img, game->plr_x, game->plr_y);
 }
 
 void	conduct_move(t_game	*game, char c)
@@ -71,7 +89,6 @@ void	move_hook(mlx_key_data_t keydata, void *param)
 	t_game	*game;
 
 	game = param;
-
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(game->mlx);
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
@@ -84,8 +101,6 @@ void	move_hook(mlx_key_data_t keydata, void *param)
 		conduct_move(game, 's');
 }
 
-
-
 void	update_map(t_game *game, char **map)
 {
 	if (map[game->plr_y][game->plr_x] == 'M')
@@ -93,7 +108,7 @@ void	update_map(t_game *game, char **map)
 		mlx_close_window(game->mlx);
 		ft_printf("Oh NOOOO... The ghost got you :(. You have lost\n");
 		success_exit(NULL, game);
-		}
+	}
 	if (map[game->plr_y][game->plr_x] == 'C')
 		pickup_collectible(game, map, game->img->collectible);
 	if (game->collect == 0 && game->img->exit_closed)

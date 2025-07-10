@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:36:59 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/08 16:32:31 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 16:31:06 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_map_str(char *file_name, t_game *game)
 	map_str = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		error_exit("Cannot open the map 🗺️", game);
+		error_exit("Cannot open the map", game);
 	while (1)
 	{
 		next_line = get_next_line(fd);

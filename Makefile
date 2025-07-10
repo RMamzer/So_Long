@@ -6,7 +6,7 @@
 #    By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 16:44:05 by rmamzer           #+#    #+#              #
-#    Updated: 2025/07/08 16:45:16 by rmamzer          ###   ########.fr        #
+#    Updated: 2025/07/10 16:40:28 by rmamzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ BONUS_NAME = so_long.bonus
 
 CC = cc
 
-C_FLAGS = -Wall -Wextra -Werror -g
+C_FLAGS = -Wall -Wextra -Werror
 
 MLX42_DIR = ./MLX42
 MLX42 = $(MLX42_DIR)/build/libmlx42.a
@@ -40,7 +40,8 @@ SRCS =  main.c check_map.c check_map2.c exit_functions.c get_visuals.c\
 
 BONUS_SRCS = main_bonus.c check_map_bonus.c check_map2_bonus.c \
 			exit_functions_bonus.c get_visuals_bonus.c \
-			move_functions_bonus.c render_visuals_bonus.c
+			move_functions_bonus.c render_visuals_bonus.c \
+			new_enemy_bonus.c new_visual_utils_bonus.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 .SECONDARY: ${OBJS}
@@ -59,16 +60,16 @@ $(MLX42_DIR):
 	git clone https://github.com/codam-coding-college/MLX42.git $@;
 
 $(MLX42): $(MLX42_DIR)
-	@cmake $(MLX42_DIR) -B $(MLX42_DIR)/build
-	@make -C $(MLX42_DIR)/build -j4
+	cmake $(MLX42_DIR) -B $(MLX42_DIR)/build
+	make -C $(MLX42_DIR)/build -j4
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
+	mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
 
 $(BONUS_OBJS_DIR)%.o: $(BONUS_SRCS_DIR)%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
+	mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX42)
 	$(CC) $(C_FLAGS) $(OBJS) $(LIBFT) $(MLX42_LIBS) -o $(NAME)
@@ -89,7 +90,7 @@ bonus: .bonus
 
 .bonus: $(BONUS_OBJS) $(LIBFT) $(MLX42)
 	$(CC) $(C_FLAGS) $(BONUS_OBJS) $(LIBFT) $(MLX42_LIBS) -o $(BONUS_NAME)
-	@touch .bonus
+	touch .bonus
 
 .PHONY: all re clean fclean bonus
 

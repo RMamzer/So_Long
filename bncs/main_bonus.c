@@ -6,12 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 13:01:20 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 15:15:47 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long_bonus.h"
-
 
 void	init_empty_game_and_img(t_game *game)
 {
@@ -31,9 +30,14 @@ void	init_empty_game_and_img(t_game *game)
 	img->exit = NULL;
 	img->player_left = NULL;
 	img->player_right = NULL;
-	img->player_t_left = NULL;
-	img->player_t_right = NULL;
+	img->player_t_l = NULL;
+	img->player_t_r = NULL;
 	img->wall = NULL;
+	init_bonus(img);
+}
+
+void	init_bonus(t_img *img)
+{
 	img->enemy[0] = NULL;
 	img->enemy[1] = NULL;
 	img->enemy[2] = NULL;
@@ -57,8 +61,8 @@ void	get_images(t_img *img, t_game *game)
 	get_collectible(img, game);
 	get_wall(img, game);
 	get_exit(img, game);
-	get_enemy(img,game);
-	get_pickup(img,game);
+	get_enemy(img, game);
+	get_pickup(img, game);
 }
 
 void	parse_map(t_game *game, char **argv)
@@ -72,27 +76,6 @@ void	parse_map(t_game *game, char **argv)
 	check_map_shape(game);
 	check_walls(game);
 	check_route(game);
-}
-
-void	enemy_hook(void *temp)
-{
-	t_game *game;
-	double frame_l;
-	double current_time;
-
-	game = temp;
-	frame_l = 0.2;
-	current_time = mlx_get_time();
-
-	if (current_time - game->img->last_enemy_time >= frame_l)
-	{
-		game->img->enemy_frame = (game->img->enemy_frame + 1) % 3;
-		game->img->last_enemy_time = current_time;
-		game->img->enemy[0]->enabled = false;
-		game->img->enemy[1]->enabled = false;
-		game->img->enemy[2]->enabled = false;
-		game->img->enemy[game->img->enemy_frame]->enabled = true;
-	}
 }
 
 int	main(int argc, char **argv)

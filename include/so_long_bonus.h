@@ -6,12 +6,12 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:55 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 12:48:38 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 15:35:03 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
 
 # define SIZE 64
 
@@ -25,8 +25,8 @@ typedef struct s_img
 	mlx_image_t		*background;
 	mlx_image_t		*player_right;
 	mlx_image_t		*player_left;
-	mlx_texture_t	*player_t_right;
-	mlx_texture_t	*player_t_left;
+	mlx_texture_t	*player_t_r;
+	mlx_texture_t	*player_t_l;
 	mlx_image_t		*collectible;
 	mlx_image_t		*wall;
 	mlx_image_t		*exit;
@@ -40,9 +40,8 @@ typedef struct s_img
 	mlx_texture_t	*pickup_t_left;
 	char			direction;
 	bool			pickup_needed;
-	double			time;
-	double 			last_enemy_time;
-	int 			enemy_frame;
+	double			last_enemy_time;
+	int				enemy_frame;
 }	t_img;
 
 typedef struct s_game
@@ -66,6 +65,7 @@ typedef struct s_game
 //main
 int		main(int argc, char **argv);
 void	init_empty_game_and_img(t_game *game);
+void	init_bonus(t_img *img);
 void	get_images(t_img *img, t_game *game);
 void	parse_map(t_game *game, char **argv);
 
@@ -98,6 +98,8 @@ void	get_wall(t_img *img, t_game *game);
 void	get_exit(t_img *img, t_game *game);
 
 //move_functions
+void	create_player_direction(t_game *game, t_img *img, size_t x, size_t y);
+void	move_player_image(t_game *game, t_img *img);
 void	conduct_move(t_game	*game, char c);
 void	move_hook(mlx_key_data_t keydata, void *param);
 void	update_map(t_game *game, char **map);
@@ -106,15 +108,17 @@ void	update_map(t_game *game, char **map);
 void	render_map(t_game *game);
 void	place_object(t_game *game, size_t x, size_t y);
 void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll);
-void	move_player_image(t_game *game, t_img *img);
+void	update_exit(t_game *game, t_img *img, size_t x, size_t y);
 
-//extra bonus functions
+//new_enemy
+void	get_enemy(t_img *img, t_game *game);
+void	enemy_hook(void *temp);
+void	place_enemies(t_game *game, t_img *img, size_t x, size_t y);
+void	create_pickup_image(t_game *game, t_img *img, size_t x, size_t y);
+
+//new_visual_utils
+void	get_pickup(t_img *img, t_game *game);
 void	display_moves_text(t_game *game);
 void	display_moves_num(t_game *game);
-void	get_enemy(t_img *img, t_game *game);
-void	create_player_direction(t_game *game, t_img *img, size_t x, size_t y);
-void	get_pickup(t_img *img, t_game *game);
-void	update_exit(t_game *game, t_img *img, size_t x, size_t y);
-void 	place_enemies(t_game *game, t_img *img, size_t x, size_t y);
-// void	enemy_hook(void *temp);
+void	free_bonus_img(t_game *game, t_img *img);
 #endif

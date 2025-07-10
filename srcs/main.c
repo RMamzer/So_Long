@@ -6,14 +6,11 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:43 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/07 18:35:06 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:28:28 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-
-
 
 void	init_empty_game_and_img(t_game *game)
 {

@@ -6,7 +6,7 @@
 /*   By: rmamzer <rmamzer@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:35:01 by rmamzer           #+#    #+#             */
-/*   Updated: 2025/07/10 12:14:17 by rmamzer          ###   ########.fr       */
+/*   Updated: 2025/07/10 15:27:44 by rmamzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	place_object(t_game *game, size_t x, size_t y)
 				x * SIZE, y * SIZE);
 	else if (game->map[y][x] == 'M')
 		place_enemies(game, game->img, x, y);
-		// check = mlx_image_to_window(game->mlx, game->img->enemy,
-		// 		x * SIZE, y * SIZE);
 	if (check < 0)
 		error_exit("Could not place the object", game);
 }
@@ -77,7 +75,8 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 		{
 			if (map[y][x] == 'C')
 				i++;
-			if (y == game->plr_y && x == game->plr_x && coll->instances[i].enabled == true)
+			if (y == game->plr_y && x == game->plr_x
+				&& coll->instances[i].enabled == true)
 			{
 				coll->instances[i].enabled = false;
 				game->collect--;
@@ -90,32 +89,11 @@ void	pickup_collectible(t_game *game, char **map, mlx_image_t *coll)
 	}
 }
 
-void place_enemies(t_game *game, t_img *img, size_t x, size_t y)
-{
-	int32_t check;
-	int i;
-
-	check = 0;
-	i = 0;
-
-	while (i<3)
-	{
-		check = mlx_image_to_window(game->mlx, img->enemy[i],
-				x * SIZE, y * SIZE);
-		if  (check < 0)
-			error_exit("Could not place an enemy", game);
-		i++;
-	}
-	img->enemy[0]->enabled = true;
-	img->enemy[1]->enabled = false;
-	img->enemy[2]->enabled = false;
-}
 void	update_exit(t_game *game, t_img *img, size_t x, size_t y)
 {
-	int32_t check;
+	int32_t	check;
 
 	check = 0;
-
 	if (img->exit_closed)
 	{
 		mlx_delete_image(game->mlx, img->exit_closed);
@@ -123,73 +101,4 @@ void	update_exit(t_game *game, t_img *img, size_t x, size_t y)
 		if (check < 0)
 			error_exit("Failed to update exit image", game);
 	}
-}
-
-void	create_pickup_image(t_game *game, t_img *img, size_t x, size_t y)
-{
-	int32_t check;
-
-	check = 0;
-	if (img->direction == 'd')
-	{
-		img->pickup_right = mlx_texture_to_image(game->mlx, img->pickup_t_right);
-		if (!img->pickup_right)
-			error_exit("Failed to update pickup direction", game);
-		mlx_resize_image(img->pickup_right, SIZE, SIZE);
-		check = mlx_image_to_window(game->mlx, img->pickup_right, x * SIZE, y * SIZE);
-	}
-	else
-	{
-		img->pickup_left = mlx_texture_to_image(game->mlx, img->pickup_t_left);
-		if (!img->pickup_left)
-			error_exit("Failed to update pickup direction", game);
-		mlx_resize_image(img->pickup_left, SIZE, SIZE);
-		check = mlx_image_to_window(game->mlx, img->pickup_left, x * SIZE, y * SIZE);
-	}
-	if (check < 0)
- 		error_exit("Failed to draw pickup image", game);
-	img->pickup_needed= false;
-}
-
-void	move_player_image(t_game *game, t_img *img)
-{
-	if (img -> player_right)
-		mlx_delete_image(game->mlx, img->player_right);
-	if (img -> player_left)
-		mlx_delete_image(game->mlx, img->player_left);
-	if (img -> pickup_right)
-		mlx_delete_image(game->mlx, img->pickup_right);
-	if (img -> pickup_left)
-		mlx_delete_image(game->mlx, img->pickup_left);
-	if (img->pickup_needed == true)
-		create_pickup_image (game, img, game->plr_x,game->plr_y);
-	else
-		create_player_direction(game, img, game->plr_x,game->plr_y);
-}
-
-
-void	display_moves_text(t_game *game)
-{
-	game->img->text_str = mlx_put_string(game->mlx," NUMBER OF MOVES:", 0 , game->height * SIZE );
-	if (!game->img->text_str)
-		error_exit("Failed to write text into the screen", game);
-	display_moves_num(game);
-}
-
-void	display_moves_num(t_game *game)
-{
-	char *num_str;
-
-	if (game->img->text_num != NULL)
-		mlx_delete_image(game->mlx, game->img->text_num);
-	num_str = ft_itoa(game->steps);
-	if (!num_str)
-		error_exit("Itoa conversion failed", game);
-	game->img->text_num = mlx_put_string (game->mlx, num_str, 170,  game->height * SIZE);
-	if (!game->img->text_num)
-	{
-		free (num_str);
-		error_exit("Failed to write number of steps into the screen", game);
-	}
-	free(num_str);
 }
